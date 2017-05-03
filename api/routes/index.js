@@ -11,51 +11,22 @@ const _      = require('lodash'),
 /**
  * Model Schema
  */
-const User = require('../models/user')
+const User = require('../models/User')
 
 
 /**
- * POST
+ * Controllers
  */
-server.post('/user', function(req, res, next) {
 
-    let data = req.body || {}
-
-    let user = new User(data)
-    user.save(function(err) {
-
-        if (err) {
-            log.error(err)
-            return next(new errors.InternalError(err.message))
-            next()
-        }
-
-        res.send(201)
-        next()
-
-    })
-
-})
-
+const UserController = require('../controllers/UserController')
 
 /**
- * LIST
+ * Routes 
  */
-server.get('/users', function(req, res, next) {
 
-    User.apiQuery(req.params, function(err, docs) {
+server.post('user/create-user',  UserController.createUser)
+server.get ('user/get-all-users', UserController.getAllUsers)
 
-        if (err) {
-            log.error(err)
-            return next(new errors.InvalidContentError(err.errors.name.message))
-        }
-
-        res.send(docs)
-        next()
-
-    })
-
-})
 
 
 /**
