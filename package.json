@@ -1,0 +1,24 @@
+{
+  "name": "api_app_batalha",
+  "version": "1.0.0",
+  "description": "API serving batalha app ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "RESTful"
+  ],
+  "author": "Victor",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan-winston-adapter": "^0.2.0",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.9.7",
+    "mongoose-api-query": "^0.1.1-pre",
+    "mongoose-createdmodified": "0.0.2",
+    "restify": "^4.3.0",
+    "restify-errors": "^4.3.0",
+    "winston": "^2.3.1"
+  }
+}
