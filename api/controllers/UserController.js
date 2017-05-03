@@ -6,7 +6,7 @@ const mongoose = require('mongoose'),
   	  User = mongoose.model('User')
 
 
-module.exports = {
+const userController = {
 
 	createUser : function(req, res, next) {
 	    let data = req.body || {}
@@ -40,3 +40,5 @@ module.exports = {
 	    })
 	}
 }
+
+module.exports = userController
