@@ -6,38 +6,37 @@ const mongoose = require('mongoose'),
   	  User = mongoose.model('User')
 
 
-exports.createUser = function(req, res, next) {
+module.exports = {
 
-    let data = req.body || {}
+	createUser : function(req, res, next) {
+	    let data = req.body || {}
 
-    let user = new User(data)
-    user.save(function(err) {
+	    let user = new User(data)
+	    user.save(function(err) {
 
-        if (err) {
-            log.error(err)
-            return next(new errors.InternalError(err.message))
-            next()
-        }
+	        if (err) {
+	            log.error(err)
+	            return next(new errors.InternalError(err.message))
+	            next()
+	        }
 
-        res.send(201)
-        next()
+	        res.send(201)
+	        next()
 
-    })
+	    })
+	},
 
-}
+	getAllUsers : function(req, res, next) {
+	    User.apiQuery(req.params, function(err, docs) {
 
-exports.getAllUsers = function(req, res, next) {
+	        if (err) {
+	            log.error(err)
+	            return next(new errors.InvalidContentError(err.errors.name.message))
+	        }
 
-    User.apiQuery(req.params, function(err, docs) {
+	        res.send(docs)
+	        next()
 
-        if (err) {
-            log.error(err)
-            return next(new errors.InvalidContentError(err.errors.name.message))
-        }
-
-        res.send(docs)
-        next()
-
-    })
-
+	    })
+	}
 }

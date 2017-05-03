@@ -18,14 +18,13 @@ const User = require('../models/User')
  * Controllers
  */
 
-const UserController = require('../controllers/UserController')
+const userController = require('../controllers/UserController')
 
 /**
  * Routes 
  */
-
-server.post('user/create-user',  UserController.createUser)
-server.get ('user/get-all-users', UserController.getAllUsers)
+server.post('user/create-user',  userController.createUser)
+server.get('user/get-all-users', userController.getAllUsers)
 
 
 
