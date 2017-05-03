@@ -14,6 +14,6 @@ API serving app da batalha in NodeJs
   $ npm install
 
 # run server
-	node index.js  
+  $ node index.js  
 
 ```
