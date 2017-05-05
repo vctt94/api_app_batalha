@@ -7,11 +7,27 @@ const mongoose         = require('mongoose'),
 
 const UserSchema = new mongoose.Schema({
     name: {
-        type: String,
-        required: true,
+        type 	 : String,
+        required : true,
     },
-}, { minimize: false });
-
+    user_level: {
+        type 	 : Number,
+        required : true,
+    },
+    group: [{
+        type 	 : mongoose.Schema.Types.ObjectId,
+        ref 	 : 'Group',
+        required : false
+    }],
+    email: {
+        type 	 : String,
+        required : true,
+    },
+    fb_url: {
+        type 	 : String,
+        required : false,
+    },
+});
 
 UserSchema.plugin(mongooseApiQuery)
 UserSchema.plugin(createdModified, { index: true })
