@@ -37,10 +37,9 @@ const userController = {
 	deleteUserById : function(req, res, next) {
 
 		let id = req.params.user_id
-
 		controller.deleteById(User, id, req, res, next)
 
-	}
+	},
 }
 
 module.exports = userController
