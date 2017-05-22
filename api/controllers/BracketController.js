@@ -16,7 +16,7 @@ class BracketController {
 
 	teste(req, res, next) {
 			let t = lottery(2)
-			res.send(this.dani())
+			res.send(t)
 			next()
 	}
 
