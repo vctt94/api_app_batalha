@@ -3,8 +3,8 @@
 
 
 const controller = require('./Controller'),
-	  _ 	     = require('lodash'),
-	  mongoose   = require('mongoose'),
+	  _ 	     		 = require('lodash'),
+	  mongoose     = require('mongoose'),
   	  User 	     = mongoose.model('User')
 
 
@@ -20,6 +20,7 @@ const userController = {
 	getAllUsers : function(req, res, next) {
 	    controller.getAll(User, req, res, next)
 	},
+
 	getUserById : function(req, res, next) {
 
 		const id = req.params.user_id

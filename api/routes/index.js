@@ -12,7 +12,7 @@ const _      = require('lodash'),
  * Model Schema
  */
 const User = require('../models/User'),
-      Group = require('../models/Group') 
+      Group = require('../models/Group')
 
 
 
@@ -20,25 +20,36 @@ const User = require('../models/User'),
  * Controllers
  */
 
-const userController  = require('../controllers/UserController'),
-	  groupController = require('../controllers/GroupController'),
-	  mapController	  = require('../controllers/MapController')
+const userController    = require('../controllers/UserController'),
+	    groupController   = require('../controllers/GroupController'),
+      bracketController = require('../controllers/BracketController')
+
+/**
+ * Routes
+ */
+
+ /*
+  * brackets
+  */
+
+  server.get('/bracket/info',                      bracketController.teste)
 
 /*
  * user
- */ 
-server.post('api/user/create-user',               userController.createUser)
-server.get('api/user/get-all-users',              userController.getAllUsers)
-server.get('api/user/get-user-by-id/:user_id',    userController.getUserById)
-server.put('api/user/update-user-by-id/:user_id', userController.updateUserById)
-server.del('api/user/delete-user-by-id/:user_id', userController.deleteUserById)
+ */
+
+ server.post('/user/create-user',               userController.createUser)
+ server.get('/user/get-all-users',              userController.getAllUsers)
+ server.get('/user/get-user-by-id/:user_id',    userController.getUserById)
+ server.put('/user/update-user-by-id/:user_id', userController.updateUserById)
+ server.del('/user/delete-user-by-id/:user_id', userController.deleteUserById)
 
 /*
  * groups
  */
 
-server.post('api/group/create-group',                groupController.createGroup)
-server.get('api/group/get-all-groups',               groupController.getAllGroups)
-server.get('api/group/get-group-by-id/:group_id',    groupController.getGroupById)
-server.put('api/group/update-group-by-id/:group_id', groupController.updateGroupById)
-server.del('api/group/delete-group-by-id/:group_id', groupController.deleteGroupById)
+server.post('/group/create-group',                groupController.createGroup)
+server.get('/group/get-all-groups',               groupController.getAllGroups)
+server.get('/group/get-group-by-id/:group_id',    groupController.getGroupById)
+server.put('/group/update-group-by-id/:group_id', groupController.updateGroupById)
+server.del('/group/delete-group-by-id/:group_id', groupController.deleteGroupById)
