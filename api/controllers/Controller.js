@@ -69,7 +69,7 @@ const Controller = {
 					log.error(err)
 					return next(new errors.InvalidContentError(err.errors.name.message))
 				}
-				
+
 				res.send(200, data)
 	            next()
 
