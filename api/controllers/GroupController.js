@@ -25,27 +25,37 @@ const groupController = {
 				console.log(err)
                 return next(new errors.InternalError(err.message))
             }
+			
+            for(let member of groupMembers) {
+                User.findOne({_id: member._id},function (err, user) {
+                    console.log(user)
 
-            // for(let member of groupMembers) {
-            //     User.findOne({_id: member._id},function (err, user) {
-            //         user._group = group._id
-            //         user.save(function (err) {
-            //             if (err) return handleError(err);
-            //             // thats it!
-            //         })
-            //         console.log(user)
-            //         console.log(group)
-            //     })
-            // }
+                    group._members.push(user)
+					group.save(function(err) {
 
-            res.json({success:true})
-            next()
+                        if (err)
+                            return next(new errors.InternalError(err.message))
+                    })
+
+                })
+            }
+            console.log(group)
+
+            res.json({success:true,group: group})
 		})
 
 	},
 
 	getAllGroups : function(req, res, next) {
-	    controller.getAll(Group, req, res, next)
+		Group.find({},function(err,groups){
+			let groupMap = {}
+
+			groups.forEach(function(group){
+				groupMap[group._id] = group
+			})
+
+			res.send(groupMap)
+		})
 	},
 	getGroupById : function(req, res, next) {
 
