@@ -3,79 +3,72 @@
 
 
 const controller = require('./Controller'),
-	  _ 	     = require('lodash'),
-	  mongoose   = require('mongoose'),
-  	  Group 	 = mongoose.model('Group'),
-  	  User 	 	 = mongoose.model('User')
+    _ 	     = require('lodash'),
+    mongoose   = require('mongoose'),
+    Group 	 = mongoose.model('Group'),
+    User 	 	 = mongoose.model('User')
 
 
 const groupController = {
 
-	createGroup : function(req, res, next) {
-	    let data = req.body || {}
+    createGroup : function(req, res, next) {
+        let data = req.body || {}
 
-	    let groupName 	 = data.name
-	    let groupMembers = data.members
+        let groupName 	 = data.name
+        let groupMembers = data.members
 
 
-		let group = new Group({name: groupName})
-		group.save(function(err){
+        let group = new Group({name: groupName})
+        group.save(function(err){
 
-			if(err) {
-				console.log(err)
+            if(err) {
+                console.log(err)
                 return next(new errors.InternalError(err.message))
             }
 
-            groupMembers.forEach(function(member) {
-                User.findOne({_id: member._id},function (err, user) {
-                    if (err)
-                        return next(new errors.InternalError(err.message))
-
-                    group._members.push(user)
-					group.save(function(err) {
-                        if (err)
-                            return next(new errors.InternalError(err.message))
-                    })
-                })
-
+            group._members = groupMembers
+            group.save(function(err) {
+                if (err)
+                    return next(new errors.InternalError(err.message))
             })
 
-            res.json({success:true,group: group})
-		})
+        })
 
-	},
+        res.json({success:true,group: group})
 
-	getAllGroups : function(req, res, next) {
-		Group.find({},function(err,groups){
-			let groupMap = {}
+    },
 
-			groups.forEach(function(group){
-				groupMap[group._id] = group
-			})
+    getAllGroups : function(req, res, next) {
+        Group.find({},function(err,groups){
+            let groupMap = {}
 
-			res.send(groupMap)
-		})
-	},
-	getGroupById : function(req, res, next) {
+            groups.forEach(function(group){
+                groupMap[group._id] = group
+            })
 
-		const id = req.params.group_id
-		controller.getById(Group, id, req, res, next)
+            res.send(groupMap)
+        })
+    },
+    getGroupById : function(req, res, next) {
 
-	},
-	updateGroupById : function(req, res, next) {
+        const id = req.params.group_id
+        controller.getById(Group, id, req, res, next)
 
-	    let data = req.body || {}
-	    let id   = req.params.group_id
+    },
+    updateGroupById : function(req, res, next) {
 
-	    controller.updateById(Group, id, data, req, res, next)
+        let data = req.body || {}
+        let id   = req.params.group_id
 
-	},
-	deleteGroupById : function(req, res, next) {
+        controller.updateById(Group, id, data, req, res, next)
 
-		let id = req.params.group_id
-		controller.deleteById(Group, id, req, res, next)
+    },
+    deleteGroupById : function(req, res, next) {
 
-	},
+        let id = req.params.group_id
+        controller.deleteById(Group, id, req, res, next)
+
+    },
 }
 
 module.exports = groupController
