@@ -5,7 +5,8 @@
 const controller = require('./Controller'),
 	  _ 	     = require('lodash'),
 	  mongoose   = require('mongoose'),
-  	  Group 	 = mongoose.model('Group')
+  	  Group 	 = mongoose.model('Group'),
+  	  User 	 	 = mongoose.model('User')
 
 
 const groupController = {
@@ -13,16 +14,34 @@ const groupController = {
 	createGroup : function(req, res, next) {
 	    let data = req.body || {}
 
-	    let groupName 	= data.name
-	    let groupMember = data.members
+	    let groupName 	 = data.name
+	    let groupMembers = data.members
 
-		let group = {
-	    	name : groupName
-		}
-		group = new Group(group)
-		console.log(group)
-		// next(201)
-	    controller.create(group, req, res, next)
+
+		let group = new Group({name: groupName})
+		group.save(function(err){
+
+			if(err) {
+				console.log(err)
+                return next(new errors.InternalError(err.message))
+            }
+
+            // for(let member of groupMembers) {
+            //     User.findOne({_id: member._id},function (err, user) {
+            //         user._group = group._id
+            //         user.save(function (err) {
+            //             if (err) return handleError(err);
+            //             // thats it!
+            //         })
+            //         console.log(user)
+            //         console.log(group)
+            //     })
+            // }
+
+            res.json({success:true})
+            next()
+		})
+
 	},
 
 	getAllGroups : function(req, res, next) {
