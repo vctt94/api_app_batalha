@@ -2,8 +2,8 @@
 'use strict'
 
 const mongoose         = require('mongoose'),
-      mongooseApiQuery = require('mongoose-api-query'),
-      createdModified  = require('mongoose-createdmodified').createdModifiedPlugin
+    mongooseApiQuery = require('mongoose-api-query'),
+    createdModified  = require('mongoose-createdmodified').createdModifiedPlugin
 
 const BattleSchema = new mongoose.Schema({
     timestamp: {
@@ -12,13 +12,13 @@ const BattleSchema = new mongoose.Schema({
     },
     brackets: {
         type 	 : mongoose.Schema.Types.ObjectId,
-				ref: 'Bracket',
+        ref: 'Bracket',
         required : true,
     },
-		winner: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'User'
-		}
+    winner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 BattleSchema.plugin(mongooseApiQuery)

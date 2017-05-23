@@ -13,7 +13,15 @@ const groupController = {
 	createGroup : function(req, res, next) {
 	    let data = req.body || {}
 
-	    let group = new Group(data)
+	    let groupName 	= data.name
+	    let groupMember = data.members
+
+		let group = {
+	    	name : groupName
+		}
+		group = new Group(group)
+		console.log(group)
+		// next(201)
 	    controller.create(group, req, res, next)
 	},
 
