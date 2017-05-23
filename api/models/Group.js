@@ -2,16 +2,16 @@
 'use strict'
 
 const mongoose         = require('mongoose'),
-      mongooseApiQuery = require('mongoose-api-query'),
-      createdModified  = require('mongoose-createdmodified').createdModifiedPlugin
+    mongooseApiQuery = require('mongoose-api-query'),
+    createdModified  = require('mongoose-createdmodified').createdModifiedPlugin
 
 const GroupSchema = new mongoose.Schema({
 
-  name: {
-      type 	 : String,
-      required : true,
-  },
-	members: [{
+    name: {
+        type 	 : String,
+        required : true,
+    },
+    _members: [{
         type : mongoose.Schema.Types.ObjectId,
         ref	 : 'User',
         required : false
