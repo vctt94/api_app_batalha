@@ -25,21 +25,20 @@ const groupController = {
 				console.log(err)
                 return next(new errors.InternalError(err.message))
             }
-			
-            for(let member of groupMembers) {
+
+            groupMembers.forEach(function(member) {
                 User.findOne({_id: member._id},function (err, user) {
-                    console.log(user)
+                    if (err)
+                        return next(new errors.InternalError(err.message))
 
                     group._members.push(user)
 					group.save(function(err) {
-
                         if (err)
                             return next(new errors.InternalError(err.message))
                     })
-
                 })
-            }
-            console.log(group)
+
+            })
 
             res.json({success:true,group: group})
 		})
