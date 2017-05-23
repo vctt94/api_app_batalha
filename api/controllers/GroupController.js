@@ -39,7 +39,7 @@ const groupController = {
     },
 
     getAllGroups : function(req, res, next) {
-        Group.find({},function(err,groups){
+        Group.find({}).populate('_members').exec(function(err,groups){
             let groupMap = {}
 
             groups.forEach(function(group){
