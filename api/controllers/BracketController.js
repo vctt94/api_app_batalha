@@ -4,7 +4,10 @@
 
 const controller = require('./Controller'),
 	  _ 	     		 = require('lodash'),
-	  mongoose     = require('mongoose')
+	  mongoose     = require('mongoose'),
+		User 	    	 = mongoose.model('User'),
+		Round	       = mongoose.model('Round')
+
 
 
 const lottery = function (n, users) {
@@ -12,7 +15,7 @@ const lottery = function (n, users) {
 }
 
 
-class BracketController {
+const bracketController = {
 
 	teste(req, res, next) {
 			let t = lottery(2)
@@ -22,6 +25,6 @@ class BracketController {
 
 }
 
-const object = new BracketController()
 
-module.exports = object
+
+module.exports = bracketController

@@ -14,6 +14,7 @@ const userController = {
         let data = req.body || {}
 
         let user = new User(data)
+        
         controller.create(user, req, res, next)
     },
 
@@ -27,6 +28,7 @@ const userController = {
         controller.getById(User, id, req, res, next)
 
     },
+
     updateUserById : function(req, res, next) {
 
         let data = req.body || {}
@@ -35,6 +37,7 @@ const userController = {
         controller.updateById(User, id, data, req, res, next)
 
     },
+
     deleteUserById : function(req, res, next) {
 
         let id = req.params.user_id
