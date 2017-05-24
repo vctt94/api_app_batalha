@@ -5,8 +5,7 @@
 const controller = require('./Controller'),
 	  _ 	     		 = require('lodash'),
 	  mongoose     = require('mongoose'),
-		User 	    	 = mongoose.model('User'),
-		Round	       = mongoose.model('Round')
+		User 	    	 = mongoose.model('User')
 
 
 

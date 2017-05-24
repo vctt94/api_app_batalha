@@ -10,6 +10,14 @@ const UserSchema = new mongoose.Schema({
         type 	 : String,
         required : true,
     },
+    email: {
+        type 	 : String,
+        required : true,
+    },
+    gender: {
+        type: String,
+        required: true
+    },
     user_level: {
         type 	 : Number,
         required : true,
@@ -19,18 +27,11 @@ const UserSchema = new mongoose.Schema({
         ref 	 : 'Group',
         required : false
     }],
-    email: {
-        type 	 : String,
-        required : true,
-    },
     fb_url: {
         type 	 : String,
         required : false,
-    },
-    gender: {
-        type: String,
-        required: true
     }
+
 });
 
 UserSchema.plugin(mongooseApiQuery)
