@@ -2,97 +2,89 @@
 
 
 const _ 	   = require('lodash'),
-    mongoose = require('mongoose')
+	mongoose = require('mongoose')
 
 
 const Controller = {
 
-    create : function(type, req, res, next) {
-        type.save(function(err) {
-            if (err) {
-                log.error(err)
-                return next(new errors.InternalError(err.message))
-            }
+	returnResponseSuccess(res,data,msg){
+		return res.json({
+			success : true,
+			data    : data,
+			msg     : msg
+		})
 
-            res.send(201)
-            next()
+	},
 
-        })
-    },
+	returnResposeError(err,next,msg){
+		console.log(err)
+		return next(new errors.InternalError(err.message))
+	},
 
-    getAll : function(type, req, res, next) {
-        type.apiQuery(req.params, function(err, docs) {
+	create : function(type, req, res, next) {
+		type.save(function(err) {
+			if (err)
+				this.returnResposeError(err,next)
 
-            if (err) {
-                log.error(err)
-                return next(new errors.InvalidContentError(err.errors.name.message))
-            }
+			this.returnResponseSuccess(res,{},'Created with Success')
 
-            res.send(docs)
-            next()
+		})
+	},
 
-        })
-    },
+	getAll : function(type, req, res, next) {
+		type.apiQuery(req.params, function(err, docs) {
+			if (err)
+				this.returnResposeError(err,next)
 
-    getById : function(type, id, req, res, next) {
+			this.returnResponseSuccess(res,docs)
 
-        type.findOne({ _id: id }, function(err, doc) {
+		})
+	},
 
-            if (err) {
-                log.error(err)
-                return next(new errors.InvalidContentError(err.errors.name.message))
-            }
+	getById : function(type, id, req, res, next) {
 
-            res.send(doc)
-            next()
+		type.findOne({ _id: id }, function(err, doc) {
 
-        })
+			if (err)
+				this.returnResposeError(err,next)
 
-    },
+			this.returnResponseSuccess(res,doc)
 
-    updateById : function(type, id, data, req, res, next) {
+		})
 
-        type.findOne({ _id: id }, function(err, doc) {
+	},
 
-            if (err) {
-                log.error(err)
-                return next(new errors.InvalidContentError(err.errors.name.message))
-            } else if (!doc) {
-                return next(new errors.ResourceNotFoundError('The resource you requested could not be found.'))
-            }
+	updateById : function(type, id, data, req, res, next) {
 
-            console.log(doc)
-            type.update({ _id: doc._id }, data, function(err) {
+		const scope = this
+		type.findOneAndUpdate({ _id: id }, data, function(err, doc) {
 
-                if (err) {
-                    log.error(err)
-                    return next(new errors.InvalidContentError(err.errors.name.message))
-                }
+			if (err)
+				scope.returnResposeError(err,next)
+			else if (!doc)
+				return next(new errors.ResourceNotFoundError('The resource you requested could not be found.'))
 
-                res.send(200, data)
-                next()
+			scope.returnResponseSuccess(res,data)
 
-            })
+		})
 
-        })
+	},
 
-    },
+	deleteById : function(type, id, req, res, next) {
 
-    deleteById : function(type, id, req, res, next) {
+		type.remove({ _id: id }, function(err) {
 
-        type.remove({ _id: id }, function(err) {
+			if (err) {
+				log.error(err)
+				return next(new errors.InvalidContentError(err.errors.name.message))
+			}
 
-            if (err) {
-                log.error(err)
-                return next(new errors.InvalidContentError(err.errors.name.message))
-            }
+			res.send(204)
+			next()
 
-            res.send(204)
-            next()
+		})
 
-        })
-
-    },
+	},
 
 }
 
