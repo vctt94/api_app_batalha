@@ -11,6 +11,44 @@ chai.use(chaiHttp);
 
 describe('Users', () => {
 
+  let user = new User({"name":"teste","email":"teste@teste.com","gender":"mano","user_level":1})
+
+  describe('/POST methods', () => {
+
+    it('it should create a user', (done) => {
+
+      chai.request(server)
+        .post('/user/create-user')
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success').eql(true);
+          done();
+        });
+
+
+    })
+
+    it('it should get a user given the name part', (done) => {
+
+      let name = {"name": "teste"}
+
+      chai.request(server)
+        .post('/user/search-user-by-name')
+        .send(name)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success').eql(true);
+          done();
+        });
+
+
+    })
+
+  })
+
 
   describe('/GET users', () => {
 
@@ -46,6 +84,7 @@ describe('Users', () => {
     });
 
   });
+
 
   describe('/PUT/:id user', () => {
     it('it should UPDATE a user given the id', (done) => {

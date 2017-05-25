@@ -39,6 +39,7 @@ server.get('/bracket/info',                      bracketController.teste)
  */
 
 server.post('/user/create-user',               userController.createUser)
+server.post('/user/search-user-by-name',       userController.searchUserByName)
 server.get('/user/get-all-users',              userController.getAllUsers)
 server.get('/user/get-user-by-id/:user_id',    userController.getUserById)
 server.put('/user/update-user-by-id/:user_id', userController.updateUserById)

@@ -44,6 +44,19 @@ const userController = {
 
 	},
 
+	searchUserByName : function(req, res, next){
+
+		const name = req.params.name
+
+		User.find({name : {$regex : name, $options: "i" } }).exec(function(err,users){
+			if(err)
+				controller.returnResposeError(err,next)
+
+			controller.returnResponseSuccess(res,users)
+		})
+
+	},
+
 	updateUserById : function(req, res, next) {
 
 		let data = req.body || {}
