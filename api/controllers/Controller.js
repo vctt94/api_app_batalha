@@ -49,12 +49,14 @@ const Controller = {
 
 	getById : function(type, id, req, res, next) {
 
+		const scope = this
+
 		type.findOne({ _id: id }, function(err, doc) {
 
 			if (err)
-				this.returnResposeError(err,next)
+        scope.returnResposeError(err,next)
 
-			this.returnResponseSuccess(res,doc)
+      scope.returnResponseSuccess(res,doc)
 
 		})
 
@@ -79,15 +81,14 @@ const Controller = {
 
 	deleteById : function(type, id, req, res, next) {
 
+		const scope = this
 		type.remove({ _id: id }, function(err) {
 
-			if (err) {
-				log.error(err)
-				return next(new errors.InvalidContentError(err.errors.name.message))
-			}
+			if (err)
+				scope.returnResposeError(err,next)
 
-			res.send(204)
-			next()
+			scope.returnResponseSuccess(res,[],'deleted with success')
+
 
 		})
 
