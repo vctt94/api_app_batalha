@@ -8,11 +8,11 @@ const controller = require('./Controller'),
 		User 	    	 = mongoose.model('User')
 
 
-const randomize(min, max) {
+const randomize = function(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const timeToShine(users, count) {
+const timeToShine = function(users, count) {
 	let r 			= 0
 	let war 		= []
 	let luckies = []

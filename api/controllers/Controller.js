@@ -21,12 +21,18 @@ const Controller = {
 		return next(new errors.InternalError(err.message))
 	},
 
+	returnResposeNotFound(err,next){
+		console.log(err)
+		return next(new errors.ResourceNotFoundError('The resource you requested could not be found.'))
+	},
+
 	create : function(type, req, res, next) {
+		const scope = this
 		type.save(function(err) {
 			if (err)
-				this.returnResposeError(err,next)
+        scope.returnResposeError(err,next)
 
-			this.returnResponseSuccess(res,{},'Created with Success')
+      scope.returnResponseSuccess(res,{},'Created with Success')
 
 		})
 	},
@@ -62,7 +68,8 @@ const Controller = {
 			if (err)
 				scope.returnResposeError(err,next)
 			else if (!doc)
-				return next(new errors.ResourceNotFoundError('The resource you requested could not be found.'))
+				scope.returnResposeNotFound(err,next)
+
 
 			scope.returnResponseSuccess(res,data)
 
