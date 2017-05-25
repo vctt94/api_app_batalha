@@ -5,14 +5,14 @@
  * Module Dependencies
  */
 const _      = require('lodash'),
-      errors = require('restify-errors')
+  errors = require('restify-errors')
 
 
 /**
  * Model Schema
  */
 const User = require('../models/User'),
-      Group = require('../models/Group')
+  Group = require('../models/Group')
 
 
 
@@ -21,28 +21,28 @@ const User = require('../models/User'),
  */
 
 const userController    = require('../controllers/UserController'),
-	    groupController   = require('../controllers/GroupController'),
-      bracketController = require('../controllers/BracketController')
+  groupController   = require('../controllers/GroupController'),
+  bracketController = require('../controllers/BracketController')
 
 /**
  * Routes
  */
 
- /*
-  * brackets
-  */
+/*
+ * brackets
+ */
 
-  server.get('/bracket/info',                      bracketController.teste)
+server.get('/bracket/info',                      bracketController.teste)
 
 /*
  * user
  */
 
- server.post('/user/create-user',               userController.createUser)
- server.get('/user/get-all-users',              userController.getAllUsers)
- server.get('/user/get-user-by-id/:user_id',    userController.getUserById)
- server.put('/user/update-user-by-id/:user_id', userController.updateUserById)
- server.del('/user/delete-user-by-id/:user_id', userController.deleteUserById)
+server.post('/user/create-user',               userController.createUser)
+server.get('/user/get-all-users',              userController.getAllUsers)
+server.get('/user/get-user-by-id/:user_id',    userController.getUserById)
+server.put('/user/update-user-by-id/:user_id', userController.updateUserById)
+server.del('/user/delete-user-by-id/:user_id', userController.deleteUserById)
 
 /*
  * groups
