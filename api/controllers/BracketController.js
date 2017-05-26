@@ -12,32 +12,27 @@ const randomize = function(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+const quota = function(users, war, luckies) {
+    let r = randomize(0, war.length-1);
+    luckies.push(war[r])
+    users.splice( users.indexOf(war[r]) )
+}
+
 const timeToShine = function(users, count) {
 	let r 			= 0
-	let war 		= []
+	let girls 		= []
+    let virgins     = []
 	let luckies = []
 
 	users.map( (user) => {
-		if(user.girlpower) war[user.id] = user
+        if(user.girlpower) { girls[user.id] = user }
+        if(user.virgin) { virgins[user.id] = user }
 	})
 
-	for(let i = 1; i < 2; i++) {
-		r = randomize(0, war.length-1);
-		luckies.push(war[r])
-		users.splice( users.indexOf(war[r]) )
-		count -= 1
-	}
+	for(let i = 0; i < 2; i++) { quota(users, girls, luckies) }
+	for(let i = 0; i < 2; i++) { quota(users, virgins, luckies) }
 
-	users.map( (user) => {
-		if(user.virgin) war.push(user)
-	})
-
-	for(let i = 1; i < 2; i++) {
-		r = randomize(0, war.length-1);
-		luckies.push(war[r])
-		users.splice( users.indexOf(war[r]) )
-		count -= 1
-	}
+    count -= 4
 
 	while(count != 0) {
 		r = randomize(0, users.length-1);
