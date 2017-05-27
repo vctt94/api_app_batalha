@@ -32,7 +32,7 @@ const userController    = require('../controllers/UserController'),
  * brackets
  */
 
-server.get('/bracket/info',                      bracketController.teste)
+server.get('/bracket/lottery',                   bracketController.teste)
 
 /*
  * user
