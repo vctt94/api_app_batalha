@@ -4,15 +4,18 @@
 /**
  * Module Dependencies
  */
-const _      = require('lodash'),
-  errors = require('restify-errors')
+const _    = require('lodash'),
+  errors   = require('restify-errors')
 
 
 /**
  * Model Schema
  */
-const User = require('../models/User'),
-  Group = require('../models/Group')
+const User    = require('../models/User'),
+      Group   = require('../models/Group'),
+      Bracket = require('../models/Bracket'),
+      Round   = require('../models/Round'),
+      Battle  = require('../models/Battle')
 
 
 
@@ -20,9 +23,9 @@ const User = require('../models/User'),
  * Controllers
  */
 
-const userController    = require('../controllers/UserController'),
-  groupController   = require('../controllers/GroupController'),
-  bracketController = require('../controllers/BracketController')
+const userController = require('../controllers/UserController'),
+  groupController    = require('../controllers/GroupController'),
+  bracketController  = require('../controllers/BracketController')
 
 /**
  * Routes
@@ -32,7 +35,7 @@ const userController    = require('../controllers/UserController'),
  * brackets
  */
 
-server.get('/bracket/lottery',                   bracketController.teste)
+server.get('/bracket/make-bracket',            bracketController.makeBracket)
 
 /*
  * user

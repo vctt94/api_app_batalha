@@ -31,4 +31,4 @@ BracketSchema.plugin(mongooseApiQuery)
 BracketSchema.plugin(createdModified, { index: true })
 
 const Bracket = mongoose.model('Bracket', BracketSchema)
-module.exports = Round
+module.exports = Bracket
