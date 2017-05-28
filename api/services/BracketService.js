@@ -49,7 +49,7 @@ const timeToShine = function(users) {
 }
 
 // ** Organize the selected users in the initial bracket
-const brackets = function (fighters, numrounds = 8) {
+const rounds = function (fighters, numrounds = 8) {
 	let n 	   = 0
 	let r      = 0
 	let mod    = 0
@@ -109,17 +109,11 @@ const mockup = function () {
 	return users
 }
 
-const equal = function(element, index, array) {
-	if(element == this)
-		return true
-	else
-		return false
-}
 
 const BracketService = {
 
 	// ** Main function to select MC's
-	lottery() {
+	firstStage() {
 
 		var users = mockup()
 		let n     = users.length
@@ -128,9 +122,16 @@ const BracketService = {
 		else if(n >= 25) count = 20
 
 		let the_chosen_ones = timeToShine(users)
-		let b = brackets(the_chosen_ones)
+		let brackets = new Bracket({'first_stage': rounds(the_chosen_ones)})
+		return brackets
+	},
 
-		return b
+	setRoundWinner(round, user) {
+		
+	},
+
+	quarterFinals() {
+
 	}
 
 }

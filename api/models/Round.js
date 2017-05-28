@@ -19,6 +19,9 @@ const RoundSchema = new mongoose.Schema({
     third: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    winner: {
+        type: String
     }
 });
 

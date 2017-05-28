@@ -54,9 +54,9 @@ const Controller = {
 		type.findOne({ _id: id }, function(err, doc) {
 
 			if (err)
-        scope.returnResposeError(err,next)
+	        	scope.returnResposeError(err,next)
 
-      scope.returnResponseSuccess(res,doc)
+	      	scope.returnResponseSuccess(res,doc)
 
 		})
 
@@ -66,12 +66,10 @@ const Controller = {
 
 		const scope = this
 		type.findOneAndUpdate({ _id: id }, data, function(err, doc) {
-
 			if (err)
 				scope.returnResposeError(err,next)
 			else if (!doc)
 				scope.returnResposeNotFound(err,next)
-
 
 			scope.returnResponseSuccess(res,data)
 
