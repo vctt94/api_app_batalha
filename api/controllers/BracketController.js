@@ -11,7 +11,7 @@ const controller     = require('./Controller'),
 const bracketController = {
 
 	makeBracket(req, res, next) {
-	    let t = BracketService.lottery(req.body.users)
+	    let t = BracketService.lottery()
 			res.send(t)
 			next()
 	}

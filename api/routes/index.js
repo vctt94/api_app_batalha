@@ -23,9 +23,9 @@ const User    = require('../models/User'),
  * Controllers
  */
 
-const userController = require('../controllers/UserController'),
-  groupController    = require('../controllers/GroupController'),
-  bracketController  = require('../controllers/BracketController')
+const userController    = require('../controllers/UserController'),
+      groupController   = require('../controllers/GroupController'),
+      bracketController = require('../controllers/BracketController')
 
 /**
  * Routes

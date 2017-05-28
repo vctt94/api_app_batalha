@@ -2,7 +2,7 @@
 
 
 const _ 	   = require('lodash'),
-	mongoose = require('mongoose')
+	  mongoose = require('mongoose')
 
 
 const Controller = {
