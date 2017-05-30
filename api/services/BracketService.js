@@ -77,34 +77,41 @@ const roundInsert = function(i, user, rounds) {
 		rounds[i].third  = user
 }
 
+const defineLowRounds = function(n) {
+    if ( n < 4 ) return 1
+    if ( n >= 4  && n < 7   ) return 2
+    if ( n >= 7  && n < 13  ) return 4
+    if ( n >= 13 && n <= 16 ) return 8
+}
+
 const mockup = function () {
 	let users = []
 	users.push(new User({"name":"teste1","email":"teste@teste.com","gender":"mano","user_level":1, "virgin": true }))
 	users.push(new User({"name":"teste2","email":"teste@teste.com","gender":"mano","user_level":1, "virgin": true }))
 	users.push(new User({"name":"teste3","email":"teste@teste.com","gender":"mina","user_level":1, "virgin": true }))
-	users.push(new User({"name":"teste4","email":"teste@teste.com","gender":"mina","user_level":1, "virgin": true }))
-	users.push(new User({"name":"teste5","email":"teste@teste.com","gender":"mina","user_level":1}))
-	users.push(new User({"name":"teste6","email":"teste@teste.com","gender":"mina","user_level":1}))
-	users.push(new User({"name":"teste7","email":"teste@teste.com","gender":"mina","user_level":1}))
-	users.push(new User({"name":"teste8","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste9","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste10","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste11","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste12","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste13","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste14","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste15","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste16","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste17","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste18","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste19","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste20","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste21","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste22","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste23","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste24","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste25","email":"teste@teste.com","gender":"mano","user_level":1}))
-	users.push(new User({"name":"teste26","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste4","email":"teste@teste.com","gender":"mina","user_level":1, "virgin": true }))
+    users.push(new User({"name":"teste5","email":"teste@teste.com","gender":"mina","user_level":1}))
+    users.push(new User({"name":"teste6","email":"teste@teste.com","gender":"mina","user_level":1}))
+    users.push(new User({"name":"teste7","email":"teste@teste.com","gender":"mina","user_level":1}))
+    users.push(new User({"name":"teste8","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste9","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste10","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste11","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste12","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste13","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste14","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste15","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste16","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste17","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste18","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste19","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste20","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste21","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste22","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste23","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste24","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste25","email":"teste@teste.com","gender":"mano","user_level":1}))
+    users.push(new User({"name":"teste26","email":"teste@teste.com","gender":"mano","user_level":1}))
 
 	return users
 }
@@ -117,12 +124,22 @@ const BracketService = {
 
 		var users = mockup()
 		let n     = users.length
+        var firstStage
 
-		if(n < 25) count = 16
-		else if(n >= 25) count = 20
+        if(n <= 16){
+            let numrounds = defineLowRounds(n)
+            firstStage = rounds(users, numrounds)
+        }
+        else{
+            if(n < 25) count = 16
+            else if(n >= 25) count = 20
 
-		let the_chosen_ones = timeToShine(users)
-		let brackets = new Bracket({'first_stage': rounds(the_chosen_ones)})
+            let the_chosen_ones = timeToShine(users)
+            firstStage = rounds(the_chosen_ones)
+        }
+
+		let brackets = new Bracket({'first_stage': firstStage})
+
 		return brackets
 	},
 
