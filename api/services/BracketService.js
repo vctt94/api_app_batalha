@@ -1,13 +1,11 @@
 const mongoose = require('mongoose'),
 	  User 	   = mongoose.model('User'),
 	  Bracket  = mongoose.model('Bracket'),
-	  Round    = mongoose.model('Round')
+	  Round    = mongoose.model('Round'),
+      RoundService = require('../services/RoundService'),
+      randomize = require ('../utils/Random')
 
 var count = 0
-
-const randomize = function(min, max) {
-	return Math.floor(Math.random() * (max - min)) + min;
-}
 
 const quota = function(users, quotes, luckies) {
 	do {
@@ -46,42 +44,6 @@ const timeToShine = function(users) {
 	}
 
 	return luckies
-}
-
-// ** Organize the selected users in the initial bracket
-const rounds = function (fighters, numrounds = 8) {
-	let n 	   = 0
-	let r      = 0
-	let mod    = 0
-	let rounds = []
-	let bn  = fighters.length
-
-	while(bn != 0) {
-		r   = randomize(0, fighters.length-1)
-		mod = n%numrounds
-		roundInsert(mod, fighters[r], rounds)
-		fighters.splice(r, 1)
-		bn--
-		n++
-	}
-
-	return rounds
-}
-
-const roundInsert = function(i, user, rounds) {
-	if(rounds[i] == null)
-		rounds[i] = new Round({'first': user, 'second': null})
-	else if(rounds[i].second == null)
-		rounds[i].second = user
-	else
-		rounds[i].third  = user
-}
-
-const defineLowRounds = function(n) {
-    if ( n < 4 ) return 1
-    if ( n >= 4  && n < 7   ) return 2
-    if ( n >= 7  && n < 13  ) return 4
-    if ( n >= 13 && n <= 16 ) return 8
 }
 
 const mockup = function () {
@@ -127,15 +89,17 @@ const BracketService = {
         var firstStage
 
         if(n <= 16){
-            let numrounds = defineLowRounds(n)
-            firstStage = rounds(users, numrounds)
+            // ** Organize the few fighters the best we can:
+            let numrounds = RoundService.defineLowRounds(n)
+            firstStage = RoundService.rounds(users, numrounds)
         }
         else{
             if(n < 25) count = 16
             else if(n >= 25) count = 20
 
+            // ** Lottery:
             let the_chosen_ones = timeToShine(users)
-            firstStage = rounds(the_chosen_ones)
+            firstStage = RoundService.rounds(the_chosen_ones)
         }
 
 		let brackets = new Bracket({'first_stage': firstStage})

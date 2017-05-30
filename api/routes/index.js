@@ -26,7 +26,8 @@ const User    = require('../models/User'),
 const userController    = require('../controllers/UserController'),
       groupController   = require('../controllers/GroupController'),
       bracketController = require('../controllers/BracketController'),
-      roundController   = require('../controllers/RoundController')
+      roundController   = require('../controllers/RoundController'),
+      battleController  = require('../controllers/BattleController')
 
 /**
  * Routes
@@ -38,6 +39,10 @@ const userController    = require('../controllers/UserController'),
 
 server.put('/rounds/set-winner/:idround/:iduser', roundController.setRoundWinner)
 
+/*
+ * battles
+ */
+server.get('/bracket/make-battle',             battleController.makeBattle)
 
 /*
  * brackets

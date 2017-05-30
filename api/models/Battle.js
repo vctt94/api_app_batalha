@@ -6,10 +6,6 @@ const mongoose         = require('mongoose'),
     createdModified  = require('mongoose-createdmodified').createdModifiedPlugin
 
 const BattleSchema = new mongoose.Schema({
-    timestamp: {
-        type 	 : Date,
-        required : true,
-    },
     brackets: {
         type 	 : mongoose.Schema.Types.ObjectId,
         ref: 'Bracket',
