@@ -42,13 +42,13 @@ server.put('/rounds/set-winner/:idround/:iduser', roundController.setRoundWinner
 /*
  * battles
  */
-server.get('/bracket/make-battle',             battleController.makeBattle)
+server.get('/battle/make-battle',             battleController.createBattle)
 
 /*
  * brackets
  */
 
-server.get('/bracket/make-bracket',            bracketController.makeBracket)
+server.get('/bracket/make-bracket',            bracketController.createBracket)
 
 /*
  * user

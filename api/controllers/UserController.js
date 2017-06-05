@@ -8,7 +8,7 @@ const controller = require('./Controller'),
 	User 	     = mongoose.model('User')
 
 
-const userController = {
+const UserController = {
 
 	createUser : function(req, res, next) {
 		let data = req.body || {}
@@ -74,4 +74,4 @@ const userController = {
 	},
 }
 
-module.exports = userController
+module.exports = UserController

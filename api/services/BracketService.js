@@ -81,7 +81,7 @@ const mockup = function () {
 
 const BracketService = {
 
-	// ** Main function to select MC's
+	// ** Main function to select MC's at first stage
 	firstStage() {
 
 		var users = mockup()
@@ -107,14 +107,13 @@ const BracketService = {
 		return brackets
 	},
 
-	setRoundWinner(round, user) {
-		
-	},
-
-	quarterFinals() {
-
-	}
-
+    /* Find the current stage
+     * Check if any vacant round to put user
+     * If not, create a new round
+     * return the new stage updated 
+     */
+    getNextStageUpdated(bracket, round, user){
+    }
 }
 
 

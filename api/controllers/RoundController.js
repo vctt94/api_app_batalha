@@ -5,24 +5,29 @@ const controller     = require('./Controller'),
 	  Round 		 = mongoose.model('Round')
 
 
-const roundController = {
+const RoundController = {
 
-	setRoundWinner(req, res, next) {
-		let idround = req.body.idround
-		let iduser  = req.body.iduser
-		let scope   = this
+	updateRound(round_id, user){
 
-		Round.findOneAndUpdate({ _id: idround }, {'winner': iduser}, function(err, doc) {
-			if (err)
-				scope.returnResposeError(err,next)
-			else if (!doc)
-				scope.returnResposeNotFound(err,next)
+		Round.findOneAndUpdate({ _id: round_id }, {'winner': user}, function(err, doc) {
+			if (err) throw err 
+			else if (!doc) throw new Error('Round not found')
+        })
 
-			scope.returnResponseSuccess(res, msg = 'Round winner updated')
-		})
-	}
+    },
+
+    getRoundById(round_id){
+        const round
+        Round.findById(round_id, function(err, doc) {
+            if (err) throw err
+            else if (!doc) throw new Error('Round not found')
+                round = doc
+        })
+        return round;
+    }
+
 
 }
 
 
-module.exports = roundController
+module.exports = RoundController

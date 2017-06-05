@@ -4,11 +4,11 @@ const mongoose = require('mongoose'),
       BracketService = require('../services/BracketService')
 
 const BattleService = {
-    createBattle() {
+    instantiateBattle() {
 
-        firstStage = BracketService.firstStage()
+        bracket = BracketService.firstStage()
 
-        battle = new Battle({'brackets': firstStage})
+        battle = new Battle({'brackets': bracket})
 
         return battle
     }

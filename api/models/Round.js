@@ -21,7 +21,11 @@ const RoundSchema = new mongoose.Schema({
         ref: 'User'
     },
     winner: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    stage: {
+        type: Integer
     }
 });
 
