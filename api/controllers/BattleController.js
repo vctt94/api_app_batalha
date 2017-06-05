@@ -36,7 +36,7 @@ const BattleController = {
         const user_id   = req.params.user_id
 
         try {
-            user = UserController.getUserById()
+            user = UserController.getUserById(user_id)
             RoundController.updateRound(round_id, user)
             BracketController.updateBracket(bracket_id, round_id, user_id)
         } catch(err) {

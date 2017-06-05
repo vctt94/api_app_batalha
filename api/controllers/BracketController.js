@@ -31,6 +31,7 @@ const BracketController = {
 
         const data = BracketService.getNextStageUpdated(bracket, round, user)
 
+        // REALMENTE PRECISO PROCURAR DE NOVO?
         Bracket.findOneAndUpdate({ _id: bracket_id }, data, function(err, doc) {
 			if (err) throw err 
 			else if (!doc) throw new Error('Bracket not found')

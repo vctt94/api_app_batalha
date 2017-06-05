@@ -8,12 +8,10 @@ const controller     = require('./Controller'),
 const RoundController = {
 
 	updateRound(round_id, user){
-
 		Round.findOneAndUpdate({ _id: round_id }, {'winner': user}, function(err, doc) {
 			if (err) throw err 
 			else if (!doc) throw new Error('Round not found')
         })
-
     },
 
     getRoundById(round_id){

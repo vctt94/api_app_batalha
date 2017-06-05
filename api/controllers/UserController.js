@@ -37,10 +37,18 @@ const UserController = {
 		})
 	},
 
-	getUserById : function(req, res, next) {
+	getUserById : function(user_id) {
 
-		const id = req.params.user_id
-		controller.getById(User, id, req, res, next)
+		//const id = req.params.user_id
+		//controller.getById(User, id, req, res, next)
+        const user
+        User.findById(user_id, function(err, doc) {
+            if (err) throw err
+            else if (!doc) throw new Error('User not found')
+                user = doc
+        })
+        return user;
+
 
 	},
 

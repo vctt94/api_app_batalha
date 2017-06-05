@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
 	  User 	   = mongoose.model('User'),
 	  Bracket  = mongoose.model('Bracket'),
 	  Round    = mongoose.model('Round'),
-      RoundService = require('../services/RoundService'),
+      RoundService = require('./RoundService'),
       randomize = require ('../utils/Random')
 
 var count = 0
@@ -98,8 +98,8 @@ const BracketService = {
             else if(n >= 25) count = 20
 
             // ** Lottery:
-            let the_chosen_ones = timeToShine(users)
-            firstStage = RoundService.rounds(the_chosen_ones)
+            let theChosenOnes = timeToShine(users)
+            firstStage = RoundService.rounds(theChosenOnes)
         }
 
 		let brackets = new Bracket({'first_stage': firstStage})
@@ -113,6 +113,21 @@ const BracketService = {
      * return the new stage updated 
      */
     getNextStageUpdated(bracket, round, user){
+        const stageKey = round.stage - 1
+        const stageStr = RoundService.STAGE.STR[nextStage]
+        const stage    = bracket[stageStr]
+        if (stage.length == 0){
+            RoundService.roundInsert(0, user, stage)
+        }
+        else{
+            const i = 0
+            while(stage[i].second == null) i++
+            RoundService.roundInsert(i, user, stage)
+        }
+        const data = {
+            stageStr : stage
+        }
+        return data
     }
 }
 

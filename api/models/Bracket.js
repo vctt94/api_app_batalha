@@ -21,10 +21,10 @@ const BracketSchema = new mongoose.Schema({
       ref: 'Round'
     }],
 
-    finale: {
+    finale: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Round'
-    }
+    }]
 });
 
 BracketSchema.plugin(mongooseApiQuery)
