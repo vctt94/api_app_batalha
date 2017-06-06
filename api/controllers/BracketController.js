@@ -11,7 +11,7 @@ const controller        = require('./Controller'),
 const BracketController = {
 
     getBracketById : function(bracket_id) {
-        const bracket;
+        const bracket = null
         Bracket.findById(bracket_id, function(err, doc) {
             if (err) throw err
             else if (!doc) throw new Error('Bracket not found')
@@ -20,10 +20,37 @@ const BracketController = {
         return bracket;
     },
 
+    saveFirstBracket : function(bracket){
+        let rounds = bracket.first_stage
+        for (var i = 0, len = rounds.length; i < len; i++) {
+            RoundController.saveRound(rounds[i])
+        }
+        bracket.save(function(err){
+            if(err) throw err
+        })
+    },
+
+    _getBracketById : function(req, res, next){
+        let id = req.params.bracket_id
+        controller.getById(Bracket, id, req, res, next)
+    },
+
+    _getAllBrackets : function(req, res, next) {
+        Bracket.find({}).exec(function(err,brackets){
+            if(err) controller.returnResponseError(err,next)
+            if(!brackets) controller.returnResponseNotFound(err,next)
+            let bracketMap = {}
+            brackets.forEach(function(bracket){
+                bracketMap[bracket._id] = bracket
+            })
+            controller.returnResponseSuccess(res,bracketMap)
+        })
+    },
+
     updateBracket : function(bracket_id, round_id, user){
 
-        const bracket
-        const round
+        const bracket = null
+        const round = null
 
         round = RoundController.getRoundById(round_id);
         // PRECISA DO THIS?

@@ -9,7 +9,7 @@ const controller = require('./Controller'),
 	User 	 	 = mongoose.model('User')
 
 
-const groupController = {
+const GroupController = {
 
 	createGroup : function(req, res, next) {
 		let data = req.body || {}
@@ -74,4 +74,4 @@ const groupController = {
 	},
 }
 
-module.exports = groupController
+module.exports = GroupController

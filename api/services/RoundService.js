@@ -3,14 +3,14 @@ const mongoose  = require('mongoose'),
 	  Round     = mongoose.model('Round'),
       randomize = require ('../utils/Random')
 
-const STAGE.KEY = {
+const STAGEKEY = {
     FIRST_STAGE : 0,
     QUARTERS    : 1,
     SEMIS       : 2,
     FINAL       : 3
 }
 
-const STAGE.STR = [
+const STAGESTR = [
     'first_stage',
     'quarter_final',
     'semi_final',
@@ -20,7 +20,7 @@ const STAGE.STR = [
 
 roundInsert = function(i, user, rounds) {
     if(rounds[i] == null)
-        rounds[i] = new Round({'first': user, 'second': null, 'stage' = STAGE.KEY.FIRST_STAGE})
+        rounds[i] = new Round({'first': user, 'second': null, 'stage' : STAGEKEY.FIRST_STAGE})
     else if(rounds[i].second == null)
         rounds[i].second = user
     else

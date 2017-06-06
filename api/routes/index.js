@@ -37,18 +37,22 @@ const userController    = require('../controllers/UserController'),
   * rounds
   */
 
-server.put('/rounds/set-winner/:idround/:iduser', roundController.setRoundWinner)
+server.put('/round/set-winner/:idround/:user_id', roundController.setRoundWinner)
+server.get('/round/get-rounds',             roundController._getAllRounds)
+server.get('/round/get-round-by-id/:round_id',            roundController._getRoundById)
 
 /*
  * battles
  */
 server.get('/battle/make-battle',             battleController.createBattle)
+server.get('/battle/get-battles',             battleController.getAllBattles)
 
 /*
  * brackets
  */
 
-server.get('/bracket/make-bracket',            bracketController.createBracket)
+server.get('/bracket/get-bracket-by-id/:bracket_id',            bracketController._getBracketById)
+server.get('/bracket/get-brackets',             bracketController._getAllBrackets)
 
 /*
  * user

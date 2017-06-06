@@ -25,7 +25,7 @@ const RoundSchema = new mongoose.Schema({
         ref: 'User'
     },
     stage: {
-        type: Integer
+        type: Number
     }
 });
 

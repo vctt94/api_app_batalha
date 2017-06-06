@@ -5,20 +5,37 @@ const controller        = require('./Controller'),
       mongoose          = require('mongoose'),
       RoundController   = require('./RoundController'),
       BracketController = require('./BracketController'),
-      BattleService     = require('../services/BattleService')
+      BattleService     = require('../services/BattleService'),
+      Battle            = mongoose.model('Battle')
 
 
 const BattleController = {
 
     createBattle : function(req, res, next) {
 	    let battle = BattleService.instantiateBattle()
+
+        try{
+            BracketController.saveFirstBracket(battle.brackets)
+        } catch(err) {
+            controller.returnResponseError(err,next)
+        }
+
         battle.save(function(err){
             if(err) controller.returnResponseError(err,next)
-        }
+        })
         controller.returnResponseSuccess(res, battle, 'Battle instantiated')
 	},
 
     getAllBattles : function(req, res, next) {
+        Battle.find({}).exec(function(err,battles){
+            if(err) controller.returnResponseError(err,next)
+            if(!battles) controller.returnResponseNotFound(err,next)
+            let battleMap = {}
+            battles.forEach(function(battle){
+                battleMap[battle._id] = battle
+            })
+            controller.returnResponseSuccess(res,battleMap)
+        })
     },
 
     getBattle : function(req, res, next){
@@ -37,7 +54,7 @@ const BattleController = {
 
         try {
             user = UserController.getUserById(user_id)
-            RoundController.updateRound(round_id, user)
+            RoundController.setRoundWinner(round_id, user)
             BracketController.updateBracket(bracket_id, round_id, user_id)
         } catch(err) {
             controller.returnResponseError(err,next)

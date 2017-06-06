@@ -23,9 +23,9 @@ const UserController = {
 		User.find({}).exec(function(err,users){
 
 			if(err)
-				controller.returnResposeError(err,next)
+				controller.returnResponseError(err,next)
 			if(!users)
-				controller.returnResposeNotFound(err,next)
+				controller.returnResponseNotFound(err,next)
 
 			let userMap = {}
 
@@ -41,7 +41,7 @@ const UserController = {
 
 		//const id = req.params.user_id
 		//controller.getById(User, id, req, res, next)
-        const user
+        const user = null
         User.findById(user_id, function(err, doc) {
             if (err) throw err
             else if (!doc) throw new Error('User not found')
