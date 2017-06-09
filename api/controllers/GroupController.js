@@ -22,13 +22,13 @@ const GroupController = {
 		group.save(function(err){
 
 			if(err)
-				controller.returnResposeError(err,next)
+				controller.returnResponseError(res,err)
 
 			group._members = groupMembers
 
 			group.save(function(err) {
 				if (err)
-					controller.returnResposeError(err,next)
+					controller.returnResponseError(res,err)
 			})
 
 		})
@@ -41,7 +41,7 @@ const GroupController = {
 		Group.find({}).populate('_members').exec(function(err,groups){
 
 		  if(err)
-			  controller.returnResposeError(err,next)
+			  controller.returnResponseError(res,err)
 
 		  let groupMap = {}
 
