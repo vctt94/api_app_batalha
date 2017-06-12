@@ -17,10 +17,9 @@ const Controller = {
 	},
 
 	returnResponseError(res,err,msg){
-		return res.json({
+		return res.status(500).send({
 			success : false,
-			error   : new errors.InternalError(err.message),
-			msg     :
+			error   : err
 		})
 	},
 

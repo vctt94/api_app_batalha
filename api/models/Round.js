@@ -18,7 +18,8 @@ const RoundSchema = new mongoose.Schema({
     },
     third: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     winner: {
         type: mongoose.Schema.Types.ObjectId,

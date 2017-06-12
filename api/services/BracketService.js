@@ -82,18 +82,16 @@ const mockup = function () {
 const BracketService = {
 
 	// ** Main function to select MC's at first stage
-	firstStage() {
-
-		var users = mockup()
-		let n     = users.length
+	firstStage(users) {
+		let n = users.length
         var firstStage
 
-        if(n <= 16){
+        if(n <= 16) {
             // ** Organize the few fighters the best we can:
             let numrounds = RoundService.defineLowRounds(n)
             firstStage = RoundService.rounds(users, numrounds)
         }
-        else{
+        else {
             if(n < 25) count = 16
             else if(n >= 25) count = 20
 
@@ -110,7 +108,7 @@ const BracketService = {
     /* Find the current stage
      * Check if any vacant round to put user
      * If not, create a new round
-     * return the new stage updated 
+     * return the new stage updated
      */
     getNextStageUpdated(bracket, round, user){
         const stageKey = round.stage - 1

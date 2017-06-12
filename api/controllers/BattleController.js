@@ -12,11 +12,11 @@ const controller        = require('./Controller'),
 const BattleController = {
 
     createBattle : function(req, res, next) {
-        let users = req.data.users
+        let users = req.body
 
-	    let battle = BattleService.instantiateBattle()
+	    let battle = BattleService.instantiateBattle(users)
 
-        try{
+        try {
             BracketController.saveFirstBracket(battle.brackets)
         } catch(err) {
             controller.returnResponseError(res,err)
@@ -32,7 +32,7 @@ const BattleController = {
         Battle.find({}).exec(function(err,battles){
             if(err) controller.returnResponseError(res,err)
             if(!battles) controller.returnResponseNotFound(err,next)
-            
+
             let battleMap = {}
 
             battles.forEach(function(battle){
