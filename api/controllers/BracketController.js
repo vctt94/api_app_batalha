@@ -37,7 +37,7 @@ const BracketController = {
 
     _getAllBrackets : function(req, res, next) {
         Bracket.find({}).exec(function(err,brackets){
-            if(err) controller.returnResponseError(err,next)
+            if(err) controller.returnResponseError(res,err)
             if(!brackets) controller.returnResponseNotFound(err,next)
             let bracketMap = {}
             brackets.forEach(function(bracket){

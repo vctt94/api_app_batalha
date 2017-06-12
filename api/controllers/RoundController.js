@@ -37,7 +37,7 @@ const RoundController = {
 
     _getAllRounds : function(req, res, next) {
         Round.find({}).exec(function(err,rounds){
-            if(err) controller.returnResponseError(err,next)
+            if(err) controller.returnResponseError(res,err)
             if(!rounds) controller.returnResponseNotFound(err,next)
             let roundMap = {}
             rounds.forEach(function(round){

@@ -14,28 +14,33 @@ const _    = require('lodash'),
 const BattleController = {
 
     createBattle : function(req, res, next) {
+        let users = req.data.users
+
 	    let battle = BattleService.instantiateBattle()
 
         try{
             BracketController.saveFirstBracket(battle.brackets)
         } catch(err) {
-            controller.returnResponseError(err,next)
+            controller.returnResponseError(res,err)
         }
 
         battle.save(function(err){
-            if(err) controller.returnResponseError(err,next)
+            if(err) controller.returnResponseError(res,err)
         })
         controller.returnResponseSuccess(res, battle, 'Battle instantiated')
 	},
 
     getAllBattles : function(req, res, next) {
         Battle.find({}).exec(function(err,battles){
-            if(err) controller.returnResponseError(err,next)
+            if(err) controller.returnResponseError(res,err)
             if(!battles) controller.returnResponseNotFound(err,next)
+            
             let battleMap = {}
+
             battles.forEach(function(battle){
                 battleMap[battle._id] = battle
             })
+
             controller.returnResponseSuccess(res,battleMap)
         })
     },

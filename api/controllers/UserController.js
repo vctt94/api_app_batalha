@@ -23,7 +23,7 @@ const UserController = {
 		User.find({}).exec(function(err,users){
 
 			if(err)
-				controller.returnResponseError(err,next)
+				controller.returnResponseError(res,err)
 			if(!users)
 				controller.returnResponseNotFound(err,next)
 
@@ -51,7 +51,7 @@ const UserController = {
 
 		User.find({name : {$regex : name, $options: "i" } }).exec(function(err,users){
 			if(err)
-				controller.returnResponseError(err,next)
+				controller.returnResponseError(res,err)
 
 			controller.returnResponseSuccess(res,users)
 		})
