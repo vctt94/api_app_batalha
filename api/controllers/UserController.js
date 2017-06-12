@@ -38,18 +38,11 @@ const UserController = {
 	},
 
 	getUserById : function(user_id) {
-
-		//const id = req.params.user_id
-		//controller.getById(User, id, req, res, next)
-        const user = null
+        var user
         User.findById(user_id, function(err, doc) {
             if (err) throw err
             else if (!doc) throw new Error('User not found')
-                user = doc
-        })
-        return user;
-
-
+        }).then(doc => user = doc)
 	},
 
 	searchUserByName : function(req, res, next){
@@ -58,7 +51,7 @@ const UserController = {
 
 		User.find({name : {$regex : name, $options: "i" } }).exec(function(err,users){
 			if(err)
-				controller.returnResposeError(err,next)
+				controller.returnResponseError(err,next)
 
 			controller.returnResponseSuccess(res,users)
 		})

@@ -49,20 +49,22 @@ const BracketController = {
 
     updateBracket : function(bracket_id, round_id, user){
 
-        const bracket = null
-        const round = null
+        //var bracket = null
+        //var round = null
 
-        round = RoundController.getRoundById(round_id);
-        // PRECISA DO THIS?
-        bracket = getBracketById(bracket_id);
+        //RoundController.setRoundWinner(round_id, user)
 
-        const data = BracketService.getNextStageUpdated(bracket, round, user)
+        //round = RoundController.getRoundById(round_id);
+        //// PRECISA DO THIS?
+        //bracket = this.getBracketById(bracket_id);
 
-        // REALMENTE PRECISO PROCURAR DE NOVO?
-        Bracket.findOneAndUpdate({ _id: bracket_id }, data, function(err, doc) {
-			if (err) throw err 
-			else if (!doc) throw new Error('Bracket not found')
-        })
+        //const data = BracketService.getNextStageUpdated(bracket, round, user)
+
+        //// REALMENTE PRECISO PROCURAR DE NOVO?
+        //Bracket.findOneAndUpdate({ _id: bracket_id }, data, function(err, doc) {
+			//if (err) throw err 
+			//else if (!doc) throw new Error('Bracket not found')
+        //})
 
     }
 

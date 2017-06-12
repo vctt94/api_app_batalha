@@ -16,12 +16,12 @@ const Controller = {
 
 	},
 
-	returnResposeError(err,next,msg){
+	returnResponseError(err,next,msg){
 		console.log(err)
-		return next(new errors.InternalError(err.message))
+		return next(err.message)
 	},
 
-	returnResposeNotFound(err,next){
+	returnResponseNotFound(err,next){
 		console.log(err)
 		return next(new errors.ResourceNotFoundError('The resource you requested could not be found.'))
 	},
@@ -39,7 +39,7 @@ const Controller = {
 	getAll : function(type, req, res, next) {
 		type.apiQuery(req.params, function(err, docs) {
 			if (err)
-				this.returnResposeError(err,next)
+				this.returnResponseError(err,next)
 
 			this.returnResponseSuccess(res,docs)
 
@@ -53,7 +53,7 @@ const Controller = {
 		type.findOne({ _id: id }, function(err, doc) {
 
 			if (err)
-	        	scope.returnResposeError(err,next)
+	        	scope.returnResponseError(err,next)
 
 	      	scope.returnResponseSuccess(res,doc)
 
@@ -66,9 +66,9 @@ const Controller = {
 		const scope = this
 		type.findOneAndUpdate({ _id: id }, data, function(err, doc) {
 			if (err)
-				scope.returnResposeError(err,next)
+				scope.returnResponseError(err,next)
 			else if (!doc)
-				scope.returnResposeNotFound(err,next)
+				scope.returnResponseNotFound(err,next)
 
 			scope.returnResponseSuccess(res,data)
 
@@ -82,7 +82,7 @@ const Controller = {
 		type.remove({ _id: id }, function(err) {
 
 			if (err)
-				scope.returnResposeError(err,next)
+				scope.returnResponseError(err,next)
 
 			scope.returnResponseSuccess(res,[],'deleted with success')
 
