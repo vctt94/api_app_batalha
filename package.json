@@ -23,10 +23,11 @@
     "mongoose-createdmodified": "0.0.2",
     "restify": "^4.3.0",
     "restify-errors": "^4.3.0",
-    "winston": "^2.3.1"
-  },
-  "devDependencies": {
+    "winston": "^2.3.1",
     "body-parser": "^1.17.2",
     "mocha": "^3.4.2"
+  },
+  "devDependencies": {
+
   }
 }

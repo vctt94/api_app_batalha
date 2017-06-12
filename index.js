@@ -56,7 +56,7 @@ server.on('uncaughtException', (req, res, route, err) => {
 /**
  * Lift Server, Connect to DB & Bind Routes
  */
-server.listen(config.port, '127.0.0.1', function() {
+server.listen(config.port, function() {
 
   mongoose.connection.on('error', function(err) {
     log.error('Mongoose default connection error: ' + err)
