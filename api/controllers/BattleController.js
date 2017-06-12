@@ -1,10 +1,12 @@
 'use strict';
 
 
-const controller        = require('./Controller'),
+const _    = require('lodash'),
+      controller        = require('./Controller'),
       mongoose          = require('mongoose'),
       RoundController   = require('./RoundController'),
       BracketController = require('./BracketController'),
+      UserController    = require('./UserController'),
       BattleService     = require('../services/BattleService'),
       Battle            = mongoose.model('Battle')
 
@@ -43,7 +45,14 @@ const BattleController = {
         })
     },
 
-    getBattle : function(req, res, next){
+    getBattleById : function(battle_id){
+        var battle
+        Battle.findById(battle_id, function(err, doc) {
+            if (err) throw err
+            else if (!doc) throw new Error('Battle not found')
+            battle = doc
+        })
+        return battle
     },
 
     getBattleWinner : function(req, res, next){
@@ -53,19 +62,23 @@ const BattleController = {
     },
 
     updateBattle : function(req, res, next){
-        const battle_id = req.params.battle_id
-        const round_id  = req.params.round_id
-        const user_id   = req.params.user_id
+        const battle_id  = req.params.battle_id
+        const round_id   = req.params.round_id
+        const user_id    = req.params.user_id
+        var data       = {message : ""}
+
 
         try {
-            user = UserController.getUserById(user_id)
-            RoundController.setRoundWinner(round_id, user)
-            BracketController.updateBracket(bracket_id, round_id, user_id)
+            //let battle = BattleController.getBattleById(battle_id)
+            //const bracket_id = battle.brackets
+            var user = UserController.getUserById(user_id)
+            //BracketController.updateBracket(bracket_id, round_id, user)
         } catch(err) {
-            controller.returnResponseError(res,err)
+            data.message = err.message
         }
 
-        controller.returnResponseSuccess(res, {}, 'Updated Succesfully')
+        //controller.returnResponseSuccess(res, data, 'Updated Succesfully')
+        console.log(data.message)
     },
 
     setBattleWinner : function(req, res, next){

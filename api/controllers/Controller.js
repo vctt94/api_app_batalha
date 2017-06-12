@@ -76,7 +76,7 @@ const Controller = {
 			if (err)
 				scope.returnResponseError(res,err)
 			else if (!doc)
-				scope.returnResposeNotFound(err,next)
+				scope.returnResponseNotFound(err,next)
 
 			scope.returnResponseSuccess(res,data)
 
