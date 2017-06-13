@@ -88,10 +88,6 @@ const BattleController = {
         //controller.returnResponseSuccess(res, data, 'Updated Succesfully')
     },
 
-    getAsyncObjects : async function() {
-
-    },
-
     setBattleWinner : function(req, res, next){
     },
 
