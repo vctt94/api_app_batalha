@@ -8,7 +8,8 @@ const _    = require('lodash'),
       BracketController = require('./BracketController'),
       UserController    = require('./UserController'),
       BattleService     = require('../services/BattleService'),
-      Battle            = mongoose.model('Battle')
+      Battle            = mongoose.model('Battle'),
+      User              = mongoose.model('User')
 
 
 const BattleController = {
@@ -46,13 +47,12 @@ const BattleController = {
     },
 
     getBattleById : function(battle_id){
-        var battle
-        Battle.findById(battle_id, function(err, doc) {
-            if (err) throw err
-            else if (!doc) throw new Error('Battle not found')
-            battle = doc
+        return new Promise( (resolve, reject) => {
+            Battle.findById(battle_id, function(err, doc) {
+                if (err) reject(err)
+                resolve(doc)
+            })
         })
-        return battle
     },
 
     getBattleWinner : function(req, res, next){
@@ -65,25 +65,37 @@ const BattleController = {
         const battle_id  = req.params.battle_id
         const round_id   = req.params.round_id
         const user_id    = req.params.user_id
-        var data       = {message : ""}
 
 
         try {
-            //let battle = BattleController.getBattleById(battle_id)
-            //const bracket_id = battle.brackets
-            var user = UserController.getUserById(user_id)
-            //BracketController.updateBracket(bracket_id, round_id, user)
+            Promise.all([
+                UserController.getUserById(user_id),
+                BattleController.getBattleById(battle_id)
+            ]).then( result => {
+                let user       = result[0]
+                let bracket_id = result[1].brackets
+
+                BracketController.updateBracket(bracket_id, round_id, user)
+            }).catch( err => {
+                return controller.returnResponseError(res, err)
+            })
+
+
         } catch(err) {
-            data.message = err.message
+            return controller.returnResponseError(res, err)
         }
 
         //controller.returnResponseSuccess(res, data, 'Updated Succesfully')
-        console.log(data.message)
+    },
+
+    getAsyncObjects : async function() {
+
     },
 
     setBattleWinner : function(req, res, next){
     },
-deleteBattle : function(req, res, next){
+
+    deleteBattle : function(req, res, next){
     }
 }
 
