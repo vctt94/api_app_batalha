@@ -7,6 +7,7 @@ const _    = require('lodash'),
       BracketController = require('./BracketController'),
       UserController    = require('./UserController'),
       BattleService     = require('../services/BattleService'),
+      MapRound          = require('../utils/MapRound'),
       Battle            = mongoose.model('Battle'),
       User              = mongoose.model('User')
 
@@ -19,15 +20,30 @@ const BattleController = {
 	    let battle = BattleService.instantiateBattle(users)
 
         try {
-            BracketController.saveBracket(battle.brackets, 'first_stage')
+            BracketController.saveBracket(battle.brackets, MapRound.STAGESTR[0])
         } catch(err) {
             controller.returnResponseError(res,err)
         }
 
         battle.save(function(err){
             if(err) controller.returnResponseError(res,err)
+
+            Battle.findOne({_id: battle._id})
+                  .populate('brackets')
+                  .populate({
+                      path: 'brackets',
+                      populate: {
+                          path: 'first_stage',
+                          populate: {
+                              path: 'first second third'
+                          }
+                      }
+                  })
+                  .exec(function(err, doc) {
+                    if(err) controller.returnResponseError(res,err)
+                    controller.returnResponseSuccess(res, doc, 'Battle instantiated')
+                  })
         })
-        controller.returnResponseSuccess(res, battle, 'Battle instantiated')
 	},
 
     getAllBattles : function(req, res, next) {
