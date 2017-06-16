@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "API serving batalha app ",
   "main": "index.js",
-
   "scripts": {
     "start": "SET NODE_ENV=dev && node index.js",
     "test": "mocha --timeout 10000"
@@ -14,6 +13,7 @@
   "author": "Victor",
   "license": "ISC",
   "dependencies": {
+    "babel": "^6.23.0",
     "bunyan-winston-adapter": "^0.2.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",

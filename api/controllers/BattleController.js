@@ -71,7 +71,9 @@ const BattleController = {
         try {
             //let battle = BattleController.getBattleById(battle_id)
             //const bracket_id = battle.brackets
-            var user = UserController.getUserById(user_id)
+            User.getById(user_id).then(doc => {
+                console.log(doc.name)
+            })
             //BracketController.updateBracket(bracket_id, round_id, user)
         } catch(err) {
             data.message = err.message

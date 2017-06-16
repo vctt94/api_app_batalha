@@ -20,7 +20,7 @@ const Controller = {
 		return res.json({
 			success : false,
 			error   : new errors.InternalError(err.message),
-			msg     :
+			msg     : msg
 		})
 	},
 

@@ -42,7 +42,8 @@ const UserController = {
         User.findById(user_id, function(err, doc) {
             if (err) throw err
             else if (!doc) throw new Error('User not found')
-        }).then(doc => user = doc)
+            return doc
+        })
 	},
 
 	searchUserByName : function(req, res, next){
