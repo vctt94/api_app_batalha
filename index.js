@@ -4,7 +4,7 @@
 /**
  * Module Dependencies
  */
-const config        = require('./config'),
+const config    = require('./config'),
   restify       = require('restify'),
   bunyan        = require('bunyan'),
   winston       = require('winston'),
@@ -44,6 +44,11 @@ server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser({ mapParams: true }))
 server.use(restify.fullResponse())
 
+server.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 /**
  * Error Handling

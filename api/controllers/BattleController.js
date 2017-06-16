@@ -8,17 +8,18 @@ const _    = require('lodash'),
       BracketController = require('./BracketController'),
       UserController    = require('./UserController'),
       BattleService     = require('../services/BattleService'),
-      Battle            = mongoose.model('Battle')
+      Battle            = mongoose.model('Battle'),
+      User              = mongoose.model('User')
 
 
 const BattleController = {
 
     createBattle : function(req, res, next) {
-        let users = req.data.users
+        let users = req.body
 
-	    let battle = BattleService.instantiateBattle()
+	    let battle = BattleService.instantiateBattle(users)
 
-        try{
+        try {
             BracketController.saveFirstBracket(battle.brackets)
         } catch(err) {
             controller.returnResponseError(res,err)
@@ -34,7 +35,7 @@ const BattleController = {
         Battle.find({}).exec(function(err,battles){
             if(err) controller.returnResponseError(res,err)
             if(!battles) controller.returnResponseNotFound(err,next)
-            
+
             let battleMap = {}
 
             battles.forEach(function(battle){
@@ -46,13 +47,12 @@ const BattleController = {
     },
 
     getBattleById : function(battle_id){
-        var battle
-        Battle.findById(battle_id, function(err, doc) {
-            if (err) throw err
-            else if (!doc) throw new Error('Battle not found')
-            battle = doc
+        return new Promise( (resolve, reject) => {
+            Battle.findById(battle_id, function(err, doc) {
+                if (err) reject(err)
+                resolve(doc)
+            })
         })
-        return battle
     },
 
     getBattleWinner : function(req, res, next){
@@ -65,27 +65,33 @@ const BattleController = {
         const battle_id  = req.params.battle_id
         const round_id   = req.params.round_id
         const user_id    = req.params.user_id
-        var data       = {message : ""}
 
 
         try {
-            //let battle = BattleController.getBattleById(battle_id)
-            //const bracket_id = battle.brackets
-            User.getById(user_id).then(doc => {
-                console.log(doc.name)
+            Promise.all([
+                UserController.getUserById(user_id),
+                BattleController.getBattleById(battle_id)
+            ]).then( result => {
+                let user       = result[0]
+                let bracket_id = result[1].brackets
+
+                BracketController.updateBracket(bracket_id, round_id, user)
+            }).catch( err => {
+                return controller.returnResponseError(res, err)
             })
-            //BracketController.updateBracket(bracket_id, round_id, user)
+
+
         } catch(err) {
-            data.message = err.message
+            return controller.returnResponseError(res, err)
         }
 
         //controller.returnResponseSuccess(res, data, 'Updated Succesfully')
-        console.log(data.message)
     },
 
     setBattleWinner : function(req, res, next){
     },
-deleteBattle : function(req, res, next){
+
+    deleteBattle : function(req, res, next){
     }
 }
 

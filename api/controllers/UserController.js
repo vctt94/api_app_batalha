@@ -38,12 +38,13 @@ const UserController = {
 	},
 
 	getUserById : function(user_id) {
-        var user
-        User.findById(user_id, function(err, doc) {
-            if (err) throw err
-            else if (!doc) throw new Error('User not found')
-            return doc
-        })
+		return new Promise( (resolve, reject) => {
+
+			User.findById(user_id, function(err, doc) {
+				if (err) reject(err)
+				resolve(doc)
+			})
+		})
 	},
 
 	searchUserByName : function(req, res, next){

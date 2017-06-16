@@ -29,9 +29,10 @@ const userController    = require('../controllers/UserController'),
       roundController   = require('../controllers/RoundController'),
       battleController  = require('../controllers/BattleController')
 
-/**
- * Routes
- */
+
+ /**
+  * Routes
+  */
 
  /*
   * rounds
@@ -44,7 +45,7 @@ server.get('/round/get-round-by-id/:round_id',    roundController._getRoundById)
 /*
  * battles
  */
-server.get('/battle/make-battle',      battleController.createBattle)
+server.post('/battle/make-battle',            battleController.createBattle)
 server.get('/battle/get-battles',             battleController.getAllBattles)
 server.get('/battle/update-battle/:battle_id/:round_id/:user_id',           battleController.updateBattle)
 
@@ -52,8 +53,8 @@ server.get('/battle/update-battle/:battle_id/:round_id/:user_id',           batt
  * brackets
  */
 
-server.get('/bracket/get-bracket-by-id/:bracket_id',            bracketController._getBracketById)
-server.get('/bracket/get-brackets',             bracketController._getAllBrackets)
+server.get('/bracket/get-bracket-by-id/:bracket_id',  bracketController._getBracketById)
+server.get('/bracket/get-brackets',                   bracketController._getAllBrackets)
 
 /*
  * user
