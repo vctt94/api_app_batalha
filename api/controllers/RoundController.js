@@ -2,7 +2,8 @@
 
 const controller     = require('./Controller'),
       mongoose       = require('mongoose'),
-	  Round 		 = mongoose.model('Round')
+	  Round 		 = mongoose.model('Round'),
+      RoundService   = require('../services/RoundService')
 
 
 const RoundController = {
@@ -21,13 +22,13 @@ const RoundController = {
     },
 
     getRoundById(round_id){
-        const roun = null
-        Round.findById(round_id, function(err, doc) {
-            if (err) throw err
-            else if (!doc) throw new Error('Round not found')
-                round = doc
-        })
-        return round;
+		return new Promise( (resolve, reject) => {
+
+			Round.findById(round_id, function(err, doc) {
+				if (err) reject(err)
+				resolve(doc)
+			})
+		})
     },
 
     _getRoundById : function(req, res, next){
@@ -47,7 +48,25 @@ const RoundController = {
         })
     },
 
-
+    saveOrUpdateRound(round){
+		return new Promise( (resolve, reject) => {
+			Round.findById(round._id, function(err, doc) {
+				if (err) reject(err)
+				if(!doc){
+                    //create
+                    RoundController.saveRound(round)
+                }
+                else{
+                    //update
+                    doc.second = round.second
+                    Round.findOneAndUpdate({_id : doc._id}, doc, function(err, doc){
+                        if(err) throw err
+                    })
+                }
+                resolve(doc)
+			})
+		})
+    }
 }
 
 

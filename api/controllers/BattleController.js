@@ -4,7 +4,6 @@
 const _    = require('lodash'),
       controller        = require('./Controller'),
       mongoose          = require('mongoose'),
-      RoundController   = require('./RoundController'),
       BracketController = require('./BracketController'),
       UserController    = require('./UserController'),
       BattleService     = require('../services/BattleService'),
@@ -20,7 +19,7 @@ const BattleController = {
 	    let battle = BattleService.instantiateBattle(users)
 
         try {
-            BracketController.saveFirstBracket(battle.brackets)
+            BracketController.saveBracket(battle.brackets, 'first_stage')
         } catch(err) {
             controller.returnResponseError(res,err)
         }
@@ -55,6 +54,11 @@ const BattleController = {
         })
     },
 
+    _getBattleById : function(req, res, next){
+        let id = req.params.battle_id
+        controller.getById(Battle, id, req, res, next)
+    },
+
     getBattleWinner : function(req, res, next){
     },
 
@@ -85,7 +89,7 @@ const BattleController = {
             return controller.returnResponseError(res, err)
         }
 
-        //controller.returnResponseSuccess(res, data, 'Updated Succesfully')
+        controller.returnResponseSuccess(res, {}, 'Updated Succesfully')
     },
 
     setBattleWinner : function(req, res, next){

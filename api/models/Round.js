@@ -14,7 +14,7 @@ const RoundSchema = new mongoose.Schema({
     second: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        default : null
     },
     third: {
         type: mongoose.Schema.Types.ObjectId,

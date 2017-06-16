@@ -38,7 +38,6 @@ const userController    = require('../controllers/UserController'),
   * rounds
   */
 
-server.put('/round/set-winner/:idround/:user_id', roundController.setRoundWinner)
 server.get('/round/get-rounds',                   roundController._getAllRounds)
 server.get('/round/get-round-by-id/:round_id',    roundController._getRoundById)
 
@@ -48,6 +47,7 @@ server.get('/round/get-round-by-id/:round_id',    roundController._getRoundById)
 server.post('/battle/make-battle',            battleController.createBattle)
 server.get('/battle/get-battles',             battleController.getAllBattles)
 server.get('/battle/update-battle/:battle_id/:round_id/:user_id',           battleController.updateBattle)
+server.get('/battle/get-battle-by-id/:battle_id',  battleController._getBattleById)
 
 /*
  * brackets
@@ -63,7 +63,7 @@ server.get('/bracket/get-brackets',                   bracketController._getAllB
 server.post('/user/create-user',               userController.createUser)
 server.post('/user/search-user-by-name',       userController.searchUserByName)
 server.get('/user/get-all-users',              userController.getAllUsers)
-server.get('/user/get-user-by-id/:user_id',    userController.getUserById)
+server.get('/user/get-user-by-id/:user_id',    userController._getUserById)
 server.put('/user/update-user-by-id/:user_id', userController.updateUserById)
 server.del('/user/delete-user-by-id/:user_id', userController.deleteUserById)
 

@@ -47,6 +47,11 @@ const UserController = {
 		})
 	},
 
+    _getUserById : function(req, res, next){
+        let id = req.params.user_id
+        controller.getById(User, id, req, res, next)
+    },
+
 	searchUserByName : function(req, res, next){
 
 		const name = req.params.name

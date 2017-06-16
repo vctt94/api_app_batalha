@@ -11,17 +11,23 @@ const controller        = require('./Controller'),
 const BracketController = {
 
     getBracketById : function(bracket_id) {
-        const bracket = null
-        Bracket.findById(bracket_id, function(err, doc) {
-            if (err) throw err
-            else if (!doc) throw new Error('Bracket not found')
-            bracket = doc
-        })
-        return bracket;
+		return new Promise( (resolve, reject) => {
+
+			//Bracket.findById(bracket_id, function(err, doc) {
+				//if (err) reject(err)
+				//resolve(doc)
+			//})
+            Bracket.findOne({_id : bracket_id})
+                   .populate('first_stage quarter_final semi_final finale').exec(
+                function(err, doc){
+                    if(err) reject(err)
+                    resolve(doc)
+                })
+		})
     },
 
-    saveFirstBracket : function(bracket){
-        let rounds = bracket.first_stage
+    saveBracket : function(bracket, stage){
+        let rounds = bracket[stage]
         for (var i = 0, len = rounds.length; i < len; i++) {
             RoundController.saveRound(rounds[i])
         }
@@ -49,23 +55,32 @@ const BracketController = {
 
     updateBracket : function(bracket_id, round_id, user){
 
-        //var bracket = null
-        //var round = null
+        var bracket = null
+        var round = null
+        var nextStage 
 
-        //RoundController.setRoundWinner(round_id, user)
+        RoundController.setRoundWinner(round_id, user)
 
-        //round = RoundController.getRoundById(round_id);
-        //// PRECISA DO THIS?
-        //bracket = this.getBracketById(bracket_id);
+        Promise.all([
+            BracketController.getBracketById(bracket_id),
+            RoundController.getRoundById(round_id)
+        ]).then( result => {
+            bracket = result[0]
+            round = result[1]
+            
+            nextStage = BracketService.getNextStageUpdated(bracket, round, user)
 
-        // REALMENTE PRECISO PROCURAR DE NOVO?
-        Bracket.findOneAndUpdate({ _id: bracket_id }, data, function(err, doc) {
-			if (err) throw err
-			else if (!doc) throw new Error('Bracket not found')
+            RoundController.saveOrUpdateRound(nextStage.round)
+        }).then( _ => {
+            bracket[nextStage.name] = nextStage.rounds
+            Bracket.findOneAndUpdate({_id : bracket._id}, bracket, function(err, doc){
+                if(err) throw err
+            })
+        }).catch( err => {
+            throw err
         })
-
+            
     }
-
 }
 
 

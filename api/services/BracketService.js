@@ -3,7 +3,8 @@ const mongoose = require('mongoose'),
 	  Bracket  = mongoose.model('Bracket'),
 	  Round    = mongoose.model('Round'),
       RoundService = require('./RoundService'),
-      randomize = require ('../utils/Random')
+      randomize = require('../utils/Random'),
+      MapRound = require('../utils/MapRound')
 
 var count = 0
 
@@ -111,21 +112,20 @@ const BracketService = {
      * return the new stage updated
      */
     getNextStageUpdated(bracket, round, user){
-        const stageKey = round.stage - 1
-        const stageStr = RoundService.STAGE.STR[nextStage]
-        const stage    = bracket[stageStr]
-        if (stage.length == 0){
-            RoundService.roundInsert(0, user, stage)
+        const stageKey = round.stage + 1
+        const stageStr = MapRound.STAGESTR[stageKey]
+        const rounds    = bracket[stageStr]
+
+        var i = 0
+        while(rounds[i] != null && rounds[i].second != null){
+            i++
         }
-        else{
-            const i = 0
-            while(stage[i].second == null) i++
-            RoundService.roundInsert(i, user, stage)
-        }
-        const data = {
-            stageStr : stage
-        }
-        return data
+        
+        RoundService.roundInsert(i, user, rounds, stageKey)
+
+        const nextStage = {rounds : rounds, round : rounds[i], name : stageStr}
+
+        return nextStage
     }
 }
 
