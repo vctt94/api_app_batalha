@@ -8,7 +8,7 @@ const controller = require('./Controller'),
 	User 	     = mongoose.model('User')
 
 
-const userController = {
+const UserController = {
 
 	createUser : function(req, res, next) {
 		let data = req.body || {}
@@ -23,9 +23,9 @@ const userController = {
 		User.find({}).exec(function(err,users){
 
 			if(err)
-				controller.returnResposeError(err,next)
+				controller.returnResponseError(res,err)
 			if(!users)
-				controller.returnResposeNotFound(err,next)
+				controller.returnResponseNotFound(err,next)
 
 			let userMap = {}
 
@@ -37,12 +37,20 @@ const userController = {
 		})
 	},
 
-	getUserById : function(req, res, next) {
+	getUserById : function(user_id) {
+		return new Promise( (resolve, reject) => {
 
-		const id = req.params.user_id
-		controller.getById(User, id, req, res, next)
-
+			User.findById(user_id, function(err, doc) {
+				if (err) reject(err)
+				resolve(doc)
+			})
+		})
 	},
+
+    _getUserById : function(req, res, next){
+        let id = req.params.user_id
+        controller.getById(User, id, req, res, next)
+    },
 
 	searchUserByName : function(req, res, next){
 
@@ -50,7 +58,7 @@ const userController = {
 
 		User.find({name : {$regex : name, $options: "i" } }).exec(function(err,users){
 			if(err)
-				controller.returnResposeError(err,next)
+				controller.returnResponseError(res,err)
 
 			controller.returnResponseSuccess(res,users)
 		})
@@ -74,4 +82,4 @@ const userController = {
 	},
 }
 
-module.exports = userController
+module.exports = UserController

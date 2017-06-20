@@ -9,7 +9,7 @@ const controller = require('./Controller'),
 	User 	 	 = mongoose.model('User')
 
 
-const groupController = {
+const GroupController = {
 
 	createGroup : function(req, res, next) {
 		let data = req.body || {}
@@ -22,13 +22,13 @@ const groupController = {
 		group.save(function(err){
 
 			if(err)
-				controller.returnResposeError(err,next)
+				controller.returnResponseError(res,err)
 
 			group._members = groupMembers
 
 			group.save(function(err) {
 				if (err)
-					controller.returnResposeError(err,next)
+					controller.returnResponseError(res,err)
 			})
 
 		})
@@ -41,7 +41,7 @@ const groupController = {
 		Group.find({}).populate('_members').exec(function(err,groups){
 
 		  if(err)
-			  controller.returnResposeError(err,next)
+			  controller.returnResponseError(res,err)
 
 		  let groupMap = {}
 
@@ -74,4 +74,4 @@ const groupController = {
 	},
 }
 
-module.exports = groupController
+module.exports = GroupController

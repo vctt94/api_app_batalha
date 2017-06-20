@@ -29,26 +29,32 @@ const userController    = require('../controllers/UserController'),
       roundController   = require('../controllers/RoundController'),
       battleController  = require('../controllers/BattleController')
 
-/**
- * Routes
- */
+
+ /**
+  * Routes
+  */
 
  /*
   * rounds
   */
 
-server.put('/rounds/set-winner/:idround/:iduser', roundController.setRoundWinner)
+server.get('/round/get-rounds',                   roundController._getAllRounds)
+server.get('/round/get-round-by-id/:round_id',    roundController._getRoundById)
 
 /*
  * battles
  */
-server.get('/bracket/make-battle',             battleController.makeBattle)
+server.post('/battle/make-battle',            battleController.createBattle)
+server.get('/battle/get-battles',             battleController.getAllBattles)
+server.get('/battle/update-battle/:battle_id/:round_id/:user_id',           battleController.updateBattle)
+server.get('/battle/get-battle-by-id/:battle_id',  battleController._getBattleById)
 
 /*
  * brackets
  */
 
-server.get('/bracket/make-bracket',            bracketController.makeBracket)
+server.get('/bracket/get-bracket-by-id/:bracket_id',  bracketController._getBracketById)
+server.get('/bracket/get-brackets',                   bracketController._getAllBrackets)
 
 /*
  * user
@@ -57,7 +63,7 @@ server.get('/bracket/make-bracket',            bracketController.makeBracket)
 server.post('/user/create-user',               userController.createUser)
 server.post('/user/search-user-by-name',       userController.searchUserByName)
 server.get('/user/get-all-users',              userController.getAllUsers)
-server.get('/user/get-user-by-id/:user_id',    userController.getUserById)
+server.get('/user/get-user-by-id/:user_id',    userController._getUserById)
 server.put('/user/update-user-by-id/:user_id', userController.updateUserById)
 server.del('/user/delete-user-by-id/:user_id', userController.deleteUserById)
 

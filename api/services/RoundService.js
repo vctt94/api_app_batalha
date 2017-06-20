@@ -1,20 +1,20 @@
 const mongoose  = require('mongoose'),
 	  User 	    = mongoose.model('User'),
 	  Round     = mongoose.model('Round'),
-      randomize = require ('../utils/Random')
-
-
-roundInsert = function(i, user, rounds) {
-    if(rounds[i] == null)
-        rounds[i] = new Round({'first': user, 'second': null})
-    else if(rounds[i].second == null)
-        rounds[i].second = user
-    else
-        rounds[i].third  = user
-}
+      randomize = require ('../utils/Random'),
+      MapRound = require('../utils/MapRound')
 
 
 const RoundService = {
+    roundInsert (i, user, rounds, stage) {
+        if(rounds[i] == null)
+            rounds[i] = new Round({'first': user, 'second': null, 'stage' : stage})
+        else if(rounds[i].second == null)
+            rounds[i].second = user
+        else
+            rounds[i].third  = user
+    },
+
     // ** Organize the selected users in the initial bracket
     rounds (fighters, numrounds = 8) {
         let n 	   = 0
@@ -26,7 +26,7 @@ const RoundService = {
         while(bn != 0) {
             r   = randomize(0, fighters.length-1)
             mod = n%numrounds
-            roundInsert(mod, fighters[r], rounds)
+            RoundService.roundInsert(mod, fighters[r], rounds, MapRound.STAGEKEY.FIRST_STAGE)
             fighters.splice(r, 1)
             bn--
             n++

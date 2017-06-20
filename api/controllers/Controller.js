@@ -16,21 +16,25 @@ const Controller = {
 
 	},
 
-	returnResposeError(err,next,msg){
-		console.log(err)
-		return next(new errors.InternalError(err.message))
+	returnResponseError(res,err,msg){
+		return res.status(500).send({
+			success : false,
+			error   : err,
+			msg     : msg
+		})
 	},
 
-	returnResposeNotFound(err,next){
-		console.log(err)
-		return next(new errors.ResourceNotFoundError('The resource you requested could not be found.'))
+	returnResponseNotFound(res,err){
+		return res.json({
+			success : false,
+			msg     : new errors.ResourceNotFoundError('The resource you requested could not be found.')
+		})
 	},
 
 	create : function(type, req, res, next) {
 		const scope = this
 		type.save(function(err) {
-			if (err)
-        scope.returnResposeError(err,next)
+			if (err) scope.returnResponseError(res,err)
 
       scope.returnResponseSuccess(res,{},'Created with Success')
 
@@ -38,11 +42,14 @@ const Controller = {
 	},
 
 	getAll : function(type, req, res, next) {
+
+		const scope = this
+
 		type.apiQuery(req.params, function(err, docs) {
 			if (err)
-				this.returnResposeError(err,next)
+				scope.returnResponseError(res,err)
 
-			this.returnResponseSuccess(res,docs)
+			scope.returnResponseSuccess(res,docs)
 
 		})
 	},
@@ -54,7 +61,7 @@ const Controller = {
 		type.findOne({ _id: id }, function(err, doc) {
 
 			if (err)
-	        	scope.returnResposeError(err,next)
+	        	scope.returnResponseError(res,err)
 
 	      	scope.returnResponseSuccess(res,doc)
 
@@ -65,11 +72,12 @@ const Controller = {
 	updateById : function(type, id, data, req, res, next) {
 
 		const scope = this
+
 		type.findOneAndUpdate({ _id: id }, data, function(err, doc) {
 			if (err)
-				scope.returnResposeError(err,next)
+				scope.returnResponseError(res,err)
 			else if (!doc)
-				scope.returnResposeNotFound(err,next)
+				scope.returnResponseNotFound(err,next)
 
 			scope.returnResponseSuccess(res,data)
 
@@ -83,7 +91,7 @@ const Controller = {
 		type.remove({ _id: id }, function(err) {
 
 			if (err)
-				scope.returnResposeError(err,next)
+				scope.returnResponseError(res,err)
 
 			scope.returnResponseSuccess(res,[],'deleted with success')
 

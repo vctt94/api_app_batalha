@@ -2,8 +2,9 @@ const mongoose = require('mongoose'),
 	  User 	   = mongoose.model('User'),
 	  Bracket  = mongoose.model('Bracket'),
 	  Round    = mongoose.model('Round'),
-      RoundService = require('../services/RoundService'),
-      randomize = require ('../utils/Random')
+      RoundService = require('./RoundService'),
+      randomize = require('../utils/Random'),
+      MapRound = require('../utils/MapRound')
 
 var count = 0
 
@@ -81,25 +82,23 @@ const mockup = function () {
 
 const BracketService = {
 
-	// ** Main function to select MC's
-	firstStage() {
-
-		var users = mockup()
-		let n     = users.length
+	// ** Main function to select MC's at first stage
+	firstStage(users) {
+		let n = users.length
         var firstStage
 
-        if(n <= 16){
+        if(n <= 16) {
             // ** Organize the few fighters the best we can:
             let numrounds = RoundService.defineLowRounds(n)
             firstStage = RoundService.rounds(users, numrounds)
         }
-        else{
+        else {
             if(n < 25) count = 16
             else if(n >= 25) count = 20
 
             // ** Lottery:
-            let the_chosen_ones = timeToShine(users)
-            firstStage = RoundService.rounds(the_chosen_ones)
+            let theChosenOnes = timeToShine(users)
+            firstStage = RoundService.rounds(theChosenOnes)
         }
 
 		let brackets = new Bracket({'first_stage': firstStage})
@@ -107,14 +106,27 @@ const BracketService = {
 		return brackets
 	},
 
-	setRoundWinner(round, user) {
-		
-	},
+    /* Find the current stage
+     * Check if any vacant round to put user
+     * If not, create a new round
+     * return the new stage updated
+     */
+    getNextStageUpdated(bracket, round, user){
+        const stageKey = round.stage + 1
+        const stageStr = MapRound.STAGESTR[stageKey]
+        const rounds    = bracket[stageStr]
 
-	quarterFinals() {
+        var i = 0
+        while(rounds[i] != null && rounds[i].second != null){
+            i++
+        }
+        
+        RoundService.roundInsert(i, user, rounds, stageKey)
 
-	}
+        const nextStage = {rounds : rounds, round : rounds[i], name : stageStr}
 
+        return nextStage
+    }
 }
 
 

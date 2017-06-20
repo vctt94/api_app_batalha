@@ -2,27 +2,72 @@
 
 const controller     = require('./Controller'),
       mongoose       = require('mongoose'),
-	  Round 		 = mongoose.model('Round')
+	  Round 		 = mongoose.model('Round'),
+      RoundService   = require('../services/RoundService')
 
 
-const roundController = {
+const RoundController = {
 
-	setRoundWinner(req, res, next) {
-		let idround = req.body.idround
-		let iduser  = req.body.iduser
-		let scope   = this
+	setRoundWinner(round_id, user){
+		Round.findOneAndUpdate({ _id: round_id }, {'winner': user}, function(err, doc) {
+			if (err) throw err 
+			else if (!doc) throw new Error('Round not found')
+        })
+    },
 
-		Round.findOneAndUpdate({ _id: idround }, {'winner': iduser}, function(err, doc) {
-			if (err)
-				scope.returnResposeError(err,next)
-			else if (!doc)
-				scope.returnResposeNotFound(err,next)
+    saveRound(round){
+        round.save(function(err){
+            if(err) throw err
+        })
+    },
 
-			scope.returnResponseSuccess(res, msg = 'Round winner updated')
+    getRoundById(round_id){
+		return new Promise( (resolve, reject) => {
+
+			Round.findById(round_id, function(err, doc) {
+				if (err) reject(err)
+				resolve(doc)
+			})
 		})
-	}
+    },
 
+    _getRoundById : function(req, res, next){
+        let id = req.params.round_id
+        controller.getById(Round, id, req, res, next)
+    },
+
+    _getAllRounds : function(req, res, next) {
+        Round.find({}).exec(function(err,rounds){
+            if(err) controller.returnResponseError(res,err)
+            if(!rounds) controller.returnResponseNotFound(err,next)
+            let roundMap = {}
+            rounds.forEach(function(round){
+                roundMap[round._id] = round
+            })
+            controller.returnResponseSuccess(res,roundMap)
+        })
+    },
+
+    saveOrUpdateRound(round){
+		return new Promise( (resolve, reject) => {
+			Round.findById(round._id, function(err, doc) {
+				if (err) reject(err)
+				if(!doc){
+                    //create
+                    RoundController.saveRound(round)
+                }
+                else{
+                    //update
+                    doc.second = round.second
+                    Round.findOneAndUpdate({_id : doc._id}, doc, function(err, doc){
+                        if(err) throw err
+                    })
+                }
+                resolve(doc)
+			})
+		})
+    }
 }
 
 
-module.exports = roundController
+module.exports = RoundController
