@@ -82,9 +82,9 @@ const BattleController = {
     },
 
     updateBattle : function(req, res, next){
-        const battle_id  = req.params.battle_id
-        const round_id   = req.params.round_id
-        const user_id    = req.params.user_id
+        const battle_id  = req.body.battle_id
+        const round_id   = req.body.round_id
+        const user_id    = req.body.user_id
 
 
         try {
