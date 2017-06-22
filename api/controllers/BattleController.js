@@ -111,6 +111,13 @@ const BattleController = {
     setBattleWinner : function(req, res, next){
     },
 
+    getLastestBattle : function(req, res, next){
+        let latest = Battle.find({}).sort({ created: -1 }).limit(1).exec( (err, doc) => {
+            if(err) controller.returnResponseError(res, err)
+            controller.returnResponseSuccess(res, doc, 'Latest Battle returned')
+        })
+    },
+
     deleteBattle : function(req, res, next){
     }
 }
