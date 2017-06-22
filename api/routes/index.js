@@ -45,8 +45,8 @@ server.get('/round/get-round-by-id/:round_id',    roundController._getRoundById)
  * battles
  */
 server.post('/battle/make-battle',            battleController.createBattle)
+server.post('/battle/update-battle/:battle_id/:round_id/:user_id',           battleController.updateBattle)
 server.get('/battle/get-battles',             battleController.getAllBattles)
-server.get('/battle/update-battle/:battle_id/:round_id/:user_id',           battleController.updateBattle)
 server.get('/battle/get-battle-by-id/:battle_id',  battleController._getBattleById)
 
 /*

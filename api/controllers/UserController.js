@@ -27,13 +27,13 @@ const UserController = {
 			if(!users)
 				controller.returnResponseNotFound(err,next)
 
-			let userMap = {}
+			// let userMap = {}
+			//
+			// users.forEach(function(user){
+			// 	userMap[user._id] = user
+			// })
 
-			users.forEach(function(user){
-				userMap[user._id] = user
-			})
-
-			controller.returnResponseSuccess(res,userMap)
+			controller.returnResponseSuccess(res,users)
 		})
 	},
 
