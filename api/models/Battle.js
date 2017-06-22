@@ -14,6 +14,10 @@ const BattleSchema = new mongoose.Schema({
     winner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 });
 
