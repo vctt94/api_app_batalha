@@ -13,11 +13,8 @@
   "author": "Victor",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "babel": "^6.23.0",
-=======
     "body-parser": "^1.17.2",
->>>>>>> 6fcb4b95b8eb06e49a06e7e00eef08d837b0297d
     "bunyan-winston-adapter": "^0.2.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
