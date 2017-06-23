@@ -111,6 +111,28 @@ const BattleController = {
     setBattleWinner : function(req, res, next){
     },
 
+    getLastestBattle : function(req, res, next){
+        let latest =
+            Battle.find({})
+                .populate('brackets')
+                .populate({
+                    path: 'brackets',
+                    populate: {
+                        path: 'first_stage quarter_final semi_final finale',
+                        populate: {
+                            path: 'first second third'
+                        }
+
+                    }
+                })
+                .sort({ created: -1 })
+                .limit(1)
+                .exec( (err, doc) => {
+                    if(err) controller.returnResponseError(res, err)
+                    controller.returnResponseSuccess(res, doc, 'Latest Battle returned')
+                })
+    },
+
     deleteBattle : function(req, res, next){
     }
 }

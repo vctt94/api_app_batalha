@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "babel": "^6.23.0",
+    "body-parser": "^1.17.2",
     "bunyan-winston-adapter": "^0.2.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
