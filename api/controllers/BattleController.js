@@ -50,8 +50,10 @@ const BattleController = {
         let battle_id = req.body.battle_id
         let winner_id = req.body.winner_id
 
-        return res.send(battle_id)
-
+        Battle.findOneAndUpdate({_id: battle_id}, {active: false}, function(err, doc) {
+            if(err) controller.returnResponseError(res, err)
+            controller.returnResponseSuccess(res, {}, 'Battle ended with success')
+        })
     },
 
     getAllBattles : function(req, res, next) {
