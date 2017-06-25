@@ -46,6 +46,14 @@ const BattleController = {
         })
 	},
 
+    endBattle: function(req, res, next) {
+        let battle_id = req.body.battle_id
+        let winner_id = req.body.winner_id
+
+        return res.send(battle_id)
+
+    },
+
     getAllBattles : function(req, res, next) {
         Battle.find({}).exec(function(err,battles){
             if(err) controller.returnResponseError(res,err)
@@ -133,7 +141,12 @@ const BattleController = {
                 })
     },
 
-    deleteBattle : function(req, res, next){
+    deleteAllBattles : function(req, res, next){
+        Battle.remove({}, function(err, doc) {
+            if(err) controller.returnResponseError(res, err)
+
+            controller.returnResponseSuccess(res, {}, 'All battles deleted')
+        })
     }
 }
 
