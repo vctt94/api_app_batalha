@@ -56,8 +56,8 @@ const BracketController = {
     updateBracket : function(bracket_id, round_id, user){
 
         var bracket = null
-        var round = null
-        var nextStage 
+        var round   = null
+        var nextStage
 
         RoundController.setRoundWinner(round_id, user)
 
@@ -66,8 +66,8 @@ const BracketController = {
             RoundController.getRoundById(round_id)
         ]).then( result => {
             bracket = result[0]
-            round = result[1]
-            
+            round   = result[1]
+
             nextStage = BracketService.getNextStageUpdated(bracket, round, user)
 
             RoundController.saveOrUpdateRound(nextStage.round)
@@ -76,10 +76,12 @@ const BracketController = {
             Bracket.findOneAndUpdate({_id : bracket._id}, bracket, function(err, doc){
                 if(err) throw err
             })
+
+            return nextStage.round
         }).catch( err => {
             throw err
         })
-            
+
     }
 }
 

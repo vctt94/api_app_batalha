@@ -96,6 +96,7 @@ const BattleController = {
         const round_id   = req.body.round_id
         const user_id    = req.body.user_id
 
+        var new_round
 
         try {
             Promise.all([
@@ -105,17 +106,17 @@ const BattleController = {
                 let user       = result[0]
                 let bracket_id = result[1].brackets
 
-                BracketController.updateBracket(bracket_id, round_id, user)
+                new_round = BracketController.updateBracket(bracket_id, round_id, user)
+
+                controller.returnResponseSuccess(res, {'round': new_round}, 'Updated Succesfully')
+
             }).catch( err => {
                 return controller.returnResponseError(res, err)
             })
 
-
         } catch(err) {
             return controller.returnResponseError(res, err)
         }
-
-        controller.returnResponseSuccess(res, {}, 'Updated Succesfully')
     },
 
     setBattleWinner : function(req, res, next){
