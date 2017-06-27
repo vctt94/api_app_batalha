@@ -53,7 +53,7 @@ const BracketController = {
         })
     },
 
-    updateBracket : function(bracket_id, round_id, user){
+    updateBracket : function(res, bracket_id, round_id, user){
 
         var bracket = null
         var round   = null
@@ -77,7 +77,7 @@ const BracketController = {
                 if(err) throw err
             })
 
-            return nextStage.round
+            controller.returnResponseSuccess(res, nextStage, 'Updated Succesfully');
         }).catch( err => {
             throw err
         })

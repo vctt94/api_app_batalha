@@ -15,18 +15,18 @@ const _    = require('lodash'),
 const BattleController = {
 
     createBattle : function(req, res, next) {
-        let users = req.body
+        let users = req.body;
 
-	    let battle = BattleService.instantiateBattle(users)
+	    let battle = BattleService.instantiateBattle(users);
 
         try {
-            BracketController.saveBracket(battle.brackets, MapRound.STAGESTR[0])
+            BracketController.saveBracket(battle.brackets, MapRound.STAGESTR[0]);
         } catch(err) {
-            controller.returnResponseError(res,err)
+            controller.returnResponseError(res,err);
         }
 
         battle.save(function(err){
-            if(err) controller.returnResponseError(res,err)
+            if(err) controller.returnResponseError(res,err);
 
             Battle.findOne({_id: battle._id})
                   .populate('brackets')
@@ -40,32 +40,32 @@ const BattleController = {
                       }
                   })
                   .exec(function(err, doc) {
-                    if(err) controller.returnResponseError(res,err)
-                    controller.returnResponseSuccess(res, doc, 'Battle instantiated')
+                    if(err) controller.returnResponseError(res,err);
+                    controller.returnResponseSuccess(res, doc, 'Battle instantiated');
                   })
         })
 	},
 
     endBattle: function(req, res, next) {
-        let battle_id = req.body.battle_id
-        let winner_id = req.body.winner_id
+        let battle_id = req.body.battle_id;
+        let winner_id = req.body.winner_id;
 
         Battle.findOneAndUpdate({_id: battle_id}, {active: false}, function(err, doc) {
-            if(err) controller.returnResponseError(res, err)
-            controller.returnResponseSuccess(res, {}, 'Battle ended with success')
+            if(err) controller.returnResponseError(res, err);
+            controller.returnResponseSuccess(res, {}, 'Battle ended with success');
         })
     },
 
     getAllBattles : function(req, res, next) {
         Battle.find({}).exec(function(err,battles){
-            if(err) controller.returnResponseError(res,err)
-            if(!battles) controller.returnResponseNotFound(err,next)
+            if(err) controller.returnResponseError(res,err);
+            if(!battles) controller.returnResponseNotFound(err,next);
 
-            let battleMap = {}
+            let battleMap = {};
 
             battles.forEach(function(battle){
                 battleMap[battle._id] = battle
-            })
+            });
 
             controller.returnResponseSuccess(res,battleMap)
         })
@@ -74,14 +74,14 @@ const BattleController = {
     getBattleById : function(battle_id){
         return new Promise( (resolve, reject) => {
             Battle.findById(battle_id, function(err, doc) {
-                if (err) reject(err)
-                resolve(doc)
+                if (err) reject(err);
+                resolve(doc);
             })
         })
     },
 
     _getBattleById : function(req, res, next){
-        let id = req.params.battle_id
+        let id = req.params.battle_id;
         controller.getById(Battle, id, req, res, next)
     },
 
@@ -92,24 +92,22 @@ const BattleController = {
     },
 
     updateBattle : function(req, res, next){
-        const battle_id  = req.body.battle_id
-        const round_id   = req.body.round_id
-        const user_id    = req.body.user_id
+        const battle_id  = req.body.battle_id;
+        const round_id   = req.body.round_id;
+        const user_id    = req.body.user_id;
 
-        var new_round
+        var new_stage
 
         try {
             Promise.all([
                 UserController.getUserById(user_id),
                 BattleController.getBattleById(battle_id)
             ]).then( result => {
-                let user       = result[0]
-                let bracket_id = result[1].brackets
+                let user       = result[0];
+                let bracket_id = result[1].brackets;
 
-                new_round = BracketController.updateBracket(bracket_id, round_id, user)
-
-                controller.returnResponseSuccess(res, new_round, 'Updated Succesfully')
-
+                BracketController.updateBracket(res, bracket_id, round_id, user);
+                
             }).catch( err => {
                 return controller.returnResponseError(res, err)
             })
