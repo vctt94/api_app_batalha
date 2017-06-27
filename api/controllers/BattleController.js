@@ -108,7 +108,7 @@ const BattleController = {
 
                 new_round = BracketController.updateBracket(bracket_id, round_id, user)
 
-                controller.returnResponseSuccess(res, {'round': new_round}, 'Updated Succesfully')
+                controller.returnResponseSuccess(res, new_round, 'Updated Succesfully')
 
             }).catch( err => {
                 return controller.returnResponseError(res, err)
