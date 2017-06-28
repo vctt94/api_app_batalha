@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 describe('Users', () => {
 
-  let user = new User({"name":"teste","email":"teste@teste.com","gender":"mano","user_level":1})
+  const user = new User({"name":"teste","email":"teste@teste.com","gender":"mano","user_level":1})
 
   describe('/POST methods', () => {
 
@@ -24,6 +24,7 @@ describe('Users', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('success').eql(true);
+          user.remove({ _id: res.body.data._id }, (err) => {})
           done();
         });
 
@@ -63,8 +64,6 @@ describe('Users', () => {
 
     it('it should GET user by id', (done) => {
 
-      let user = new User({"name":"teste","email":"teste@teste.com","gender":"mano","user_level":1})
-
       user.save((err,user)=>{
         chai.request(server)
           .get('/user/get-user-by-id/'+user._id)
@@ -76,6 +75,7 @@ describe('Users', () => {
             res.body.data.should.have.property('email')
             res.body.data.should.have.property('gender')
             res.body.data.should.have.property('user_level')
+            user.remove({ _id: user._id }, (err) => {})
             done()
           });
       })
@@ -89,8 +89,6 @@ describe('Users', () => {
   describe('/PUT/:id user', () => {
     it('it should UPDATE a user given the id', (done) => {
 
-      let user = new User({"name": "teste", "email": "teste@teste.com", "gender": "mano", "user_level": 1})
-
       user.save((err, user) => {
         chai.request(server)
           .put('/user/update-user-by-id/' + user._id)
@@ -100,6 +98,7 @@ describe('Users', () => {
             res.body.should.be.a('object');
             res.body.data.should.have.property('name').eql('teste update');
             res.body.data.should.have.property('email').eql('testeUpdate@teste.com');
+            user.remove({ _id: user._id }, (err) => {})
             done();
           });
 
@@ -113,8 +112,6 @@ describe('Users', () => {
 
     it('it should DELETE a user given the id', (done) => {
 
-      let user = new User({"name": "teste", "email": "teste@teste.com", "gender": "mano", "user_level": 1})
-
       user.save((err, user) => {
         chai.request(server)
           .delete('/user/delete-user-by-id/' + user._id)
@@ -122,6 +119,7 @@ describe('Users', () => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.should.have.property('success').eql(true);
+            user.remove({ _id: user._id }, (err) => {})
             done();
           });
       });

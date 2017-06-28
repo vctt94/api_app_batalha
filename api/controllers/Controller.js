@@ -33,10 +33,10 @@ const Controller = {
 
 	create : function(type, req, res, next) {
 		const scope = this
-		type.save(function(err) {
+		type.save(function(err,doc) {
 			if (err) scope.returnResponseError(res,err)
 
-      scope.returnResponseSuccess(res,{},'Created with Success')
+      scope.returnResponseSuccess(res,doc,'Created with Success')
 
 		})
 	},
