@@ -1,7 +1,6 @@
-
 'use strict'
 
-const mongoose         = require('mongoose'),
+const mongoose       = require('mongoose'),
     mongooseApiQuery = require('mongoose-api-query'),
     createdModified  = require('mongoose-createdmodified').createdModifiedPlugin
 
