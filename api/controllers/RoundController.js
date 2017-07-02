@@ -10,7 +10,7 @@ const RoundController = {
 
 	setRoundWinner(round_id, user){
 		Round.findOneAndUpdate({ _id: round_id }, {'winner': user}, function(err, doc) {
-			if (err) throw err 
+			if (err) throw err
 			else if (!doc) throw new Error('Round not found')
         })
     },
@@ -24,10 +24,17 @@ const RoundController = {
     getRoundById(round_id){
 		return new Promise( (resolve, reject) => {
 
-			Round.findById(round_id, function(err, doc) {
-				if (err) reject(err)
-				resolve(doc)
-			})
+			// Round.findById(round_id, function(err, doc) {
+			// 	if (err) reject(err)
+			// 	resolve(doc)
+			// })
+
+            Round.findOne({_id: round_id})
+                 .populate('first second third winner')
+                 .exec(function(err, doc) {
+                     if(err) controller.returnResponseError(res,err);
+                     controller.returnResponseSuccess(res, doc, 'Round populated');
+                  })
 		})
     },
 
