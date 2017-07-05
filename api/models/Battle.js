@@ -5,6 +5,13 @@ const mongoose       = require('mongoose'),
     createdModified  = require('mongoose-createdmodified').createdModifiedPlugin
 
 const BattleSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String
+    },
     brackets: {
         type 	 : mongoose.Schema.Types.ObjectId,
         ref: 'Bracket',

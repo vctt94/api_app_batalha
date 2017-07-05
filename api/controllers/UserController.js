@@ -3,8 +3,8 @@
 
 
 const controller = require('./Controller'),
-	_ 	     = require('lodash'),
-	mongoose   = require('mongoose'),
+	_ 	     	 = require('lodash'),
+	mongoose     = require('mongoose'),
 	User 	     = mongoose.model('User')
 
 
@@ -15,7 +15,12 @@ const UserController = {
 
 		let user = new User(data)
 
-		controller.create(user, req, res, next)
+		user.save(function(err, doc) {
+			if (err) controller.returnResponseError(res,err)
+
+			controller.returnResponseSuccess(res,doc,'Created with Success')
+
+		})
 	},
 
 	getAllUsers : function(req, res, next) {

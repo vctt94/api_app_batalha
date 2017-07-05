@@ -15,9 +15,9 @@ const _    = require('lodash'),
 const BattleController = {
 
     createBattle : function(req, res, next) {
-        let users = req.body;
+        let data = req.body;
 
-	    let battle = BattleService.instantiateBattle(users);
+	    let battle = BattleService.instantiateBattle(data);
 
         try {
             BracketController.saveBracket(battle.brackets, MapRound.STAGESTR[0]);

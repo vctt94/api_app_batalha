@@ -17,7 +17,7 @@ const Controller = {
 	},
 
 	returnResponseError(res,err,msg){
-		return res.status(500).send({
+		return res.json({
 			success : false,
 			error   : err,
 			msg     : msg
@@ -34,9 +34,10 @@ const Controller = {
 	create : function(type, req, res, next) {
 		const scope = this
 		type.save(function(err,doc) {
+			res.send(doc)
 			if (err) scope.returnResponseError(res,err)
 
-      scope.returnResponseSuccess(res,doc,'Created with Success')
+      		scope.returnResponseSuccess(res,doc,'Created with Success')
 
 		})
 	},
