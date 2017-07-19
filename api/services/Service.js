@@ -52,6 +52,21 @@ const Service = {
     })
   },
 
+  getAllPopulating(type,populate,childrens){
+    return new Promise((fulfill,reject)=> {
+      type.apiQuery({})
+        .populate({
+          path: populate,
+          populate: { path: childrens || ''  }
+        })
+        .exec(function (err, doc) {
+          if (err)
+            reject(err)
+          fulfill(doc)
+        })
+    })
+  },
+
   updateById(type, id, data){
     return new Promise((fulfill,reject)=>{
       type.findOneAndUpdate({ _id: id }, data, function(err, docUpdated) {

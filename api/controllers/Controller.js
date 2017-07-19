@@ -16,11 +16,11 @@ const Controller = {
 
 	},
 
-	returnResponseError(res,err,msg){
+	returnResponseError(res,err){
 		return res.json({
 			success : false,
 			error   : err,
-			msg     : msg
+			msg     : err.message
 		})
 	},
 

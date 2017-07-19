@@ -44,6 +44,9 @@ server.get('/round/get-round-by-id/:round_id',    roundController._getRoundById)
 /*
  * battles
  */
+server.get('/battles',                             battleController.battles)
+server.del('/battle/:id',                          battleController.deleteBattle)
+
 server.get('/battle/get-latest-battle',            battleController.getLastestBattle)
 server.get('/battle/get-battles',                  battleController.getAllBattles)
 server.get('/battle/get-battle-by-id/:battle_id',  battleController._getBattleById)

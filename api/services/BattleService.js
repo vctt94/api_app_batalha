@@ -1,21 +1,29 @@
 const mongoose = require('mongoose'),
-	  Bracket  = mongoose.model('Bracket'),
-      Battle   = mongoose.model('Battle')
-      BracketService = require('../services/BracketService')
+  Bracket  = mongoose.model('Bracket'),
+  Battle   = mongoose.model('Battle'),
+  service  = require('./Service'),
+  BracketService = require('../services/BracketService')
 
 const BattleService = {
-    instantiateBattle(data) {
 
-        bracket = BracketService.firstStage(data.usersSubscribed)
+  getAllBattles(){
+    return service.getAllPopulating(Battle,'brackets')
+  },
+  deleteBattle(id){
+    return service.deleteById(Battle,id)
+  },
+  instantiateBattle(data) {
 
-        battle  = new Battle({
-			'name': data.name,
-			'description': data.description,
-			'brackets': bracket
-		})
+    bracket = BracketService.firstStage(data.usersSubscribed)
 
-        return battle
-    }
+    battle  = new Battle({
+      'name': data.name,
+      'description': data.description,
+      'brackets': bracket
+    })
+
+    return battle
+  }
 }
 
 module.exports = BattleService
