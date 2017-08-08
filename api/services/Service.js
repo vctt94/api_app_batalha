@@ -8,85 +8,41 @@ const _ 	   = require('lodash'),
 const Service = {
 
   getById(type,id){
-    return new Promise((fulfill,reject)=>{
-      type.findOne({ _id: id }, function(err, doc) {
-        if (err)
-          reject(err)
-        fulfill(doc)
-      });
-    })
+      return type.findOne({ _id: id });
   },
 
   getByIdPopulating(type,id,populate,childrens){
-    return new Promise((fulfill,reject)=> {
-      type.findOne({_id: id})
+      return type.findOne({_id: id})
         .populate({
           path: populate,
           populate: { path: childrens }
         })
-        .exec(function (err, doc) {
-          if (err)
-            reject(err)
-          fulfill(doc)
-        })
-    })
+        .exec();
   },
 
   create : function(type) {
-    return new Promise((fulfill,reject)=> {
-      type.save(function (err,doc) {
-        if (err)
-          reject(err)
-        fulfill(doc)
-      })
-    })
+      return type.save();
   },
 
   getAll : function(type) {
-    return new Promise((fulfill,reject)=> {
-      type.apiQuery({}, function (err, docs) {
-        if (err)
-          reject(err)
-        fulfill(docs)
-      })
-    })
+     return type.apiQuery({});
   },
 
   getAllPopulating(type,populate,childrens){
-    return new Promise((fulfill,reject)=> {
-      type.apiQuery({})
+      return type.apiQuery({})
         .populate({
           path: populate,
           populate: { path: childrens || ''  }
         })
-        .exec(function (err, doc) {
-          if (err)
-            reject(err)
-          fulfill(doc)
-        })
-    })
+        .exec();
   },
 
   updateById(type, id, data){
-    return new Promise((fulfill,reject)=>{
-      type.findOneAndUpdate({ _id: id }, data, function(err, docUpdated) {
-        if (err)
-          reject(err)
-        fulfill(docUpdated)
-      })
-    })
+      return type.findOneAndUpdate({ _id: id }, data);
   },
 
   deleteById : function(type, id) {
-    return new Promise((fulfill,reject)=> {
-      type.remove({_id: id}, function (err) {
-        if (err)
-          reject(err)
-
-        fulfill(true)
-      })
-    })
-
+      return type.remove({_id: id});
   },
 
 }

@@ -47,7 +47,9 @@ server.get('/round/get-round-by-id/:round_id',    roundController._getRoundById)
 server.get('/battles',                             battleController.battles)
 server.del('/battle/:id',                          battleController.deleteBattle)
 
+//ARRUMAR
 server.get('/battle/get-latest-battle',            battleController.getLastestBattle)
+// --
 server.get('/battle/get-battles',                  battleController.getAllBattles)
 server.get('/battle/get-battle-by-id/:battle_id',  battleController._getBattleById)
 server.get('/battle/delete-all-battles',           battleController.deleteAllBattles)

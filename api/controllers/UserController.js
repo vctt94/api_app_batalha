@@ -62,8 +62,7 @@ const UserController = {
 		const name = req.params.name
 
 		User.find({name : {$regex : name, $options: "i" } }).exec(function(err,users){
-			if(err)
-				controller.returnResponseError(res,err)
+			if(err)	controller.returnResponseError(res,err)
 
 			controller.returnResponseSuccess(res,users)
 		})

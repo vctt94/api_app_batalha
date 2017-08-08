@@ -23,9 +23,10 @@ const BattleController = {
   },
   deleteBattle(req, res, next){
     const id = req.params.id
-    battleService.deleteBattle(id).then(response=>{
+
+    battleService.deleteBattle(id).then(response => {
       controller.returnResponseSuccess(res,{},"Deleted successfully")
-    }).catch(err=>{
+    }).catch(err => {
       controller.returnResponseError(res, err)
     })
   },
@@ -88,12 +89,10 @@ const BattleController = {
   },
 
   getBattleById : function(battle_id){
-    return new Promise( (resolve, reject) => {
       Battle.findById(battle_id, function(err, doc) {
         if (err) reject(err);
         resolve(doc);
       })
-    })
   },
 
   _getBattleById : function(req, res, next){
@@ -145,6 +144,10 @@ const BattleController = {
   },
 
   getLastestBattle : function(req, res, next){
+    //   Battle.findOne({active: true}, function(err, doc) {
+    //     if(err) controller.returnResponseError(res, err);
+    //     controller.returnResponseSuccess(res, doc, 'Latest Battle returned');
+    //   })
     Battle.find({})
       .populate('brackets')
       .populate({
