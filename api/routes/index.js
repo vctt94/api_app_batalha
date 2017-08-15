@@ -60,7 +60,7 @@ server.get('/battle/get-battles',                  battleController.getAllBattle
 server.get('/battle/get-battle-by-id/:battle_id',  battleController._getBattleById)
 server.get('/battle/delete-all-battles',           battleController.deleteAllBattles)
 server.put('/battle/end-battle',                   battleController.endBattle)
-server.post('battle/set-winner',                   battleController.setBattleWinner)
+server.post('/battle/set-winner',                   battleController.setBattleWinner)
 server.post('/battle/update-battle',               battleController.updateBattle)
 server.post('/battle/make-battle',                 battleController.createBattle)
 
