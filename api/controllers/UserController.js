@@ -30,7 +30,7 @@ const UserController = {
 			if(err)
 				controller.returnResponseError(res,err)
 			if(!users)
-				controller.returnResponseNotFound(err,next)
+				controller.returnResponseNotFound(res,next)
 
 			// let userMap = {}
 			//

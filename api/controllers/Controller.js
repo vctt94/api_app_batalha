@@ -24,7 +24,7 @@ const Controller = {
 		})
 	},
 
-	returnResponseNotFound(res,err){
+	returnResponseNotFound(res,next){
 		return res.json({
 			success : false,
 			msg     : new errors.ResourceNotFoundError('The resource you requested could not be found.')

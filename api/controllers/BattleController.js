@@ -21,6 +21,7 @@ const BattleController = {
       return controller.returnResponseError(res,err)
     })
   },
+
   deleteBattle(req, res, next){
     const id = req.params.id
 
