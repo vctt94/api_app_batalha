@@ -18,14 +18,16 @@
     "bunyan-winston-adapter": "^0.2.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
+    "cors": "^2.8.4",
     "lodash": "^4.17.4",
     "mocha": "^3.4.2",
-    "mongoose": "^4.9.7",
+    "mongoose": "^4.11.11",
     "mongoose-api-query": "^0.1.1-pre",
     "mongoose-createdmodified": "0.0.2",
     "mongoose-type-url": "^1.0.2",
     "restify": "^4.3.0",
     "restify-errors": "^4.3.0",
+    "socket.io": "^2.0.3",
     "winston": "^2.3.1"
   },
   "devDependencies": {}

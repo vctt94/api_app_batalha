@@ -9,7 +9,10 @@ const config    = require('./config'),
   bunyan        = require('bunyan'),
   winston       = require('winston'),
   bunyanWinston = require('bunyan-winston-adapter'),
-  mongoose      = require('mongoose')
+  mongoose      = require('mongoose'),
+  socketio      = require('socket.io'),
+  cors          = require('cors'),
+  io            = new socketio();
 
 /**
  * Logging
@@ -43,12 +46,7 @@ server.use(restify.jsonBodyParser({ mapParams: true }))
 server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser({ mapParams: true }))
 server.use(restify.fullResponse())
-
-server.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+server.use(cors())
 
 /**
  * Error Handling
@@ -91,6 +89,19 @@ server.listen(config.port, function() {
 
 })
 
+
+//starting socket
+global.websocket = socketio.listen(server.server, { path: '/', origins: '*:*' });
+
+websocket.on('connection', (socket) => {
+  // I see this log when the client connects
+  socket.on('disconnect', () => {
+    // I see this log when the client disconnects
+    console.log('Client disconnected.');
+  });
+})
+
 require('./api/routes/')
+require('./api/events/')
 
 module.exports = server
