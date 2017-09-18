@@ -9,7 +9,7 @@ websocket.on('connection', function (socket) {
     console.log('atualizando')
     console.log(data)
     // we tell the client to execute 'new message'
-    websocket.emit('battleUpdated');
+    socket.broadcast.emit('battle-updated');
     // socket.broadcast.emit('battleUpdated', {
     //   username: socket.username,
     //   message: data

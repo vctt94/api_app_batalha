@@ -2,15 +2,40 @@ const mongoose = require('mongoose'),
   Bracket  = mongoose.model('Bracket'),
   Battle   = mongoose.model('Battle'),
   service  = require('./Service'),
-  BracketService = require('../services/BracketService')
+  userService = require('../services/UserService'),
+  roundService = require('../services/RoundService'),
+  bracketService = require('../services/BracketService')
 
 const BattleService = {
 
   getAllBattles(){
     return service.getAllPopulating(Battle,'brackets')
   },
+  getBattle(id){
+    return service.getById(Battle,id)
+  },
   deleteBattle(id){
     return service.deleteById(Battle,id)
+  },
+  getBracketByBattle(battle_id){
+
+  },
+  updateBattle(battle_id,round_id,user_id){
+
+    Promise.all([
+      userService.getUser(user_id),
+      roundService.getRound(round_id),
+      this.getBattle(battle_id)
+    ]).then( result => {
+
+      const user     = result[0],
+            round    = result[1],
+            battle   = result[2],
+            brackets = battle.brackets;
+
+      bracketService.updateBracket(brackets, round, user)
+
+    })
   },
   instantiateBattle(data) {
 

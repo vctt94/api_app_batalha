@@ -108,29 +108,14 @@ const BattleController = {
   },
 
   updateBattle : function(req, res, next){
+
     const battle_id  = req.body.battle_id;
     const round_id   = req.body.round_id;
     const user_id    = req.body.user_id;
 
-    var new_stage
+    const updated = battleService.updateBattle(battle_id,round_id,user_id)
 
-    try {
-      Promise.all([
-        UserController.getUserById(user_id),
-        BattleController.getBattleById(battle_id)
-      ]).then( result => {
-        let user       = result[0];
-        let bracket_id = result[1].brackets;
-
-        BracketController.updateBracket(res, bracket_id, round_id, user);
-
-      }).catch( err => {
-        return controller.returnResponseError(res, err)
-      })
-
-    } catch(err) {
-      return controller.returnResponseError(res, err)
-    }
+    return controller.returnResponseSuccess(res,updated)
   },
 
   setBattleWinner : function(req, res, next){

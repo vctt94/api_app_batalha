@@ -5,7 +5,7 @@ const mongoose = require('mongoose'),
 let checkoutService = require('./CheckoutService')
 
 const UserService = {
-  getUserById(id){
+  getUser(id){
     return service.getById(User, id)
   },
   updateUserById(id, data){

@@ -1,11 +1,11 @@
 'use strict';
 
 
-const controller        = require('./Controller'),
-  mongoose          = require('mongoose'),
+const controller  = require('./Controller'),
+  mongoose        = require('mongoose'),
   Bracket 		    = mongoose.model('Bracket'),
-  RoundController   = require('./RoundController'),
-  BracketService    = require('../services/BracketService')
+  RoundController = require('./RoundController'),
+  BracketService  = require('../services/BracketService')
 
 const BracketController = {
 
@@ -55,32 +55,9 @@ const BracketController = {
 
   updateBracket : function(res, bracket_id, round_id, user){
 
-    var bracket = null
-    var round   = null
-    var nextStage
-
-    RoundController.setRoundWinner(round_id, user)
-
-    Promise.all([
-      BracketController.getBracketById(bracket_id),
-      RoundController.getRoundById(round_id)
-    ]).then( result => {
-      bracket = result[0]
-      round   = result[1]
-
-      nextStage = BracketService.getNextStageUpdated(bracket, round, user)
-
-      RoundController.saveOrUpdateRound(nextStage.round)
-    }).then( _ => {
-      bracket[nextStage.name] = nextStage.rounds
-      Bracket.findOneAndUpdate({_id : bracket._id}, bracket, function(err, doc){
-        if(err) throw err
-      })
-
+    const nextStage = BracketService.updateBracket()
       controller.returnResponseSuccess(res, nextStage, 'Updated Succesfully');
-    }).catch( err => {
-      throw err
-    })
+
 
   }
 }
