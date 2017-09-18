@@ -75,18 +75,12 @@ const BattleController = {
   },
 
   getAllBattles : function(req, res, next) {
-    Battle.find({}).exec(function(err,battles){
-      if(err) controller.returnResponseError(res,err);
-      if(!battles) controller.returnResponseNotFound(err,next);
-
-      let battleMap = {};
-
-      battles.forEach(function(battle){
-        battleMap[battle._id] = battle
-      });
-
-      controller.returnResponseSuccess(res,battleMap)
+    battleService.getAllBattles().then( battles =>{
+      return controller.returnResponseSuccess(res,battles)
+    }).catch(err=>{
+      controller.returnResponseError(err)
     })
+
   },
 
   getBattleById : function(battle_id){
@@ -101,12 +95,6 @@ const BattleController = {
     battleService.getBattle(id).then(battle=>{
       return controller.returnResponseSuccess(res,battle)
     })
-  },
-
-  getBattleWinner : function(req, res, next){
-  },
-
-  getAllBattlesByWinner : function(req, res, next){
   },
 
   updateBattle : function(req, res, next){
