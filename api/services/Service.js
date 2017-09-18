@@ -15,7 +15,7 @@ const Service = {
       return type.findOne({_id: id})
         .populate({
           path: populate,
-          populate: { path: childrens }
+          populate: { path: childrens || '' }
         })
         .exec();
   },

@@ -97,8 +97,10 @@ const BattleController = {
   },
 
   _getBattleById : function(req, res, next){
-    let id = req.params.battle_id;
-    controller.getById(Battle, id, req, res, next)
+    const id = req.params.battle_id;
+    battleService.getBattle(id).then(battle=>{
+      return controller.returnResponseSuccess(res,battle)
+    })
   },
 
   getBattleWinner : function(req, res, next){

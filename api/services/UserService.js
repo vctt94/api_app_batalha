@@ -2,7 +2,6 @@ const mongoose = require('mongoose'),
       User     = mongoose.model('User'),
       service  = require('./Service')
 
-let checkoutService = require('./CheckoutService')
 
 const UserService = {
   getUser(id){

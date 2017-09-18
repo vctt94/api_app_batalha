@@ -57,10 +57,10 @@ server.del('/battle/:id',                          battleController.deleteBattle
 server.get('/battle/get-latest-battle',            battleController.getLastestBattle)
 // --
 server.get('/battle/get-battles',                  battleController.getAllBattles)
-server.get('/battle/get-battle-by-id/:battle_id',  battleController._getBattleById)
+server.get('/battle/:battle_id',                   battleController._getBattleById)
 server.get('/battle/delete-all-battles',           battleController.deleteAllBattles)
 server.put('/battle/end-battle',                   battleController.endBattle)
-server.post('/battle/set-winner',                   battleController.setBattleWinner)
+server.post('/battle/set-winner',                  battleController.setBattleWinner)
 server.post('/battle/update-battle',               battleController.updateBattle)
 server.post('/battle/make-battle',                 battleController.createBattle)
 

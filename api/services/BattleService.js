@@ -12,7 +12,7 @@ const BattleService = {
     return service.getAllPopulating(Battle,'brackets')
   },
   getBattle(id){
-    return service.getById(Battle,id)
+    return service.getByIdPopulating(Battle,id,'brackets')
   },
   deleteBattle(id){
     return service.deleteById(Battle,id)
@@ -28,14 +28,16 @@ const BattleService = {
       this.getBattle(battle_id)
     ]).then( result => {
 
-      const user     = result[0],
-            round    = result[1],
-            battle   = result[2],
-            brackets = battle.brackets;
+      const user = result[0],
+        round    = result[1],
+        battle   = result[2],
+        brackets = battle.brackets;
 
-      bracketService.updateBracket(brackets, round, user)
+      return bracketService.updateBracket(brackets, round, user)
 
     })
+
+
   },
   instantiateBattle(data) {
 
