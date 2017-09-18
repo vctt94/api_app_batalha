@@ -80,14 +80,6 @@ const BattleController = {
     }).catch(err=>{
       controller.returnResponseError(err)
     })
-
-  },
-
-  getBattleById : function(battle_id){
-      Battle.findById(battle_id, function(err, doc) {
-        if (err) reject(err);
-        resolve(doc);
-      })
   },
 
   _getBattleById : function(req, res, next){
@@ -103,9 +95,12 @@ const BattleController = {
     const round_id   = req.body.round_id;
     const user_id    = req.body.user_id;
 
-    const updated = battleService.updateBattle(battle_id,round_id,user_id)
+    battleService.updateBattle(battle_id,round_id,user_id).then(response=>{
+      return controller.returnResponseSuccess(res,response)
+    }).catch(err=>{
+      return controller.returnResponseError(res,err)
+    })
 
-    return controller.returnResponseSuccess(res,updated)
   },
 
   setBattleWinner : function(req, res, next){

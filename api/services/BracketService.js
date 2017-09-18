@@ -116,7 +116,7 @@ const BracketService = {
   getNextStageUpdated(bracket, round, user){
     const stageKey = round.stage + 1
     const stageStr = MapRound.STAGESTR[stageKey]
-    const rounds    = bracket[stageStr]
+    const rounds   = bracket[stageStr]
 
     var i = 0
     while(rounds[i] != null && rounds[i].second != null){
@@ -134,7 +134,6 @@ const BracketService = {
   },
   updateBracket(brackets, round, user){
 
-    RoundService.setWinner(round._id,user)
 
     return new Promise( (resolve, reject) => {
 
@@ -147,6 +146,7 @@ const BracketService = {
       Bracket.findOneAndUpdate({_id : brackets._id}, brackets, function(err, doc){
         if(err) reject(err)
       })
+
       resolve(nextStage)
 
     })

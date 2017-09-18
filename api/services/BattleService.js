@@ -22,20 +22,33 @@ const BattleService = {
   },
   updateBattle(battle_id,round_id,user_id){
 
-    Promise.all([
-      userService.getUser(user_id),
-      roundService.getRound(round_id),
-      this.getBattle(battle_id)
-    ]).then( result => {
+    return new Promise((resolve,reject)=>{
 
-      const user = result[0],
-        round    = result[1],
-        battle   = result[2],
-        brackets = battle.brackets;
+      let user;
 
-      return bracketService.updateBracket(brackets, round, user)
+      userService.getUser(user_id).then(userFounded => {
+        user = userFounded;
+        roundService.setWinner(round_id,user)
+      })
+
+      Promise.all([
+        roundService.getRound(round_id),
+        this.getBattle(battle_id)
+      ]).then( results => {
+        
+        const round = results[0],
+          battle    = results[1],
+          brackets  = battle.brackets;
+
+        bracketService.updateBracket(brackets, round, user).then(response=>{
+          console.log(response)
+          resolve(response)
+        })
+
+      }).catch(err=>{reject(err)})
 
     })
+
 
 
   },

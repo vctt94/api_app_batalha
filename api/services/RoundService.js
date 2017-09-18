@@ -9,10 +9,18 @@ const mongoose  = require('mongoose'),
 const RoundService = {
 
   setWinner(round_id,user){
-    Round.findOneAndUpdate({ _id: round_id }, {'winner': user}, function(err, doc) {
-      if (err) throw err
-      else if (!doc) throw new Error('Round not found')
+    return new Promise( (resolve, reject) => {
+      Round.findOneAndUpdate({ _id: round_id }, {'winner': user}, function(err, doc) {
+
+        if (err) reject(err)
+
+        else if (!doc) throw new Error('Round not found')
+
+        resolve(doc);
+
+      })
     })
+
   },
   getRound(id){
     return Service.getById(Round,id)
