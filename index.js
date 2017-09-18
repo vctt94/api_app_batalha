@@ -12,11 +12,20 @@ const config    = require('./config'),
   mongoose      = require('mongoose'),
   socketio      = require('socket.io'),
   cors          = require('cors'),
-  io            = new socketio();
+  expressApp    = require('express')(),
+  httpServer    = require('http').Server(expressApp),
+  io            = require('socket.io')(httpServer);
 
+
+global.websocket = io;
+
+httpServer.listen(3001, function(){
+  console.log('listening on *:3001');
+});
 /**
  * Logging
  */
+
 global.log = new winston.Logger({
   transports: [
     new winston.transports.Console({
@@ -89,17 +98,6 @@ server.listen(config.port, function() {
 
 })
 
-
-//starting socket
-global.websocket = socketio.listen(server.server, { path: '/', origins: '*:*' });
-
-websocket.on('connection', (socket) => {
-  // I see this log when the client connects
-  socket.on('disconnect', () => {
-    // I see this log when the client disconnects
-    console.log('Client disconnected.');
-  });
-})
 
 require('./api/routes/')
 require('./api/events/')

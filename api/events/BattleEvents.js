@@ -4,26 +4,22 @@
 // Chatroom
 
 websocket.on('connection', function (socket) {
-  var addedUser = false;
-  socket.broadcast.emit('userConnected');
 
-  // when the client emits 'new message', this listens and executes
   socket.on('battle-update', function (data) {
+    console.log('atualizando')
     console.log(data)
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('battleUpdated', {
-      username: socket.username,
-      message: data
-    });
+    websocket.emit('battleUpdated');
+    // socket.broadcast.emit('battleUpdated', {
+    //   username: socket.username,
+    //   message: data
+    // });
   });
 
-  socket.on('battleUpdated', function () {
-    console.log('adas')
+  socket.on('battle-updated', function () {
+    console.log('atualizado')
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('battleUpdated', {
-      username: socket.username,
-      message: data
-    });
+    socket.broadcast.emit('battleUpdated');
   });
 
   // when the client emits 'add user', this listens and executes
