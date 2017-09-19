@@ -7,6 +7,7 @@ const _    = require('lodash'),
   BracketController = require('./BracketController'),
   UserController    = require('./UserController'),
   battleService     = require('../services/BattleService'),
+  bracketService    = require('../services/BracketService'),
   MapRound          = require('../utils/MapRound'),
   Battle            = mongoose.model('Battle'),
   User              = mongoose.model('User')
@@ -38,7 +39,7 @@ const BattleController = {
     let battle = battleService.instantiateBattle(data);
 
     try {
-      BracketController.saveBracket(battle.brackets, MapRound.STAGESTR[0]);
+      bracketService.saveBracket(battle.brackets, MapRound.STAGESTR[0]);
     } catch(err) {
       controller.returnResponseError(res,err);
     }

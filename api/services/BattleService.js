@@ -35,7 +35,7 @@ const BattleService = {
         roundService.getRound(round_id),
         this.getBattle(battle_id)
       ]).then( results => {
-        
+
         const round = results[0],
           battle    = results[1],
           brackets  = battle.brackets;
@@ -54,15 +54,14 @@ const BattleService = {
   },
   instantiateBattle(data) {
 
-    bracket = BracketService.firstStage(data.usersSubscribed)
+    const bracket = bracketService.firstStage(data.usersSubscribed)
 
-    battle  = new Battle({
+    return new Battle({
       'name': data.name,
       'description': data.description,
       'brackets': bracket
     })
 
-    return battle
   }
 }
 

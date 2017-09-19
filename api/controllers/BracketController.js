@@ -25,16 +25,6 @@ const BracketController = {
     })
   },
 
-  saveBracket : function(bracket, stage){
-    let rounds = bracket[stage]
-    for (var i = 0, len = rounds.length; i < len; i++) {
-      RoundController.saveRound(rounds[i])
-    }
-    bracket.save(function(err){
-      if(err) throw err
-    })
-  },
-
   _getBracketById : function(req, res, next){
     let id = req.params.bracket_id
     controller.getById(Bracket, id, req, res, next)

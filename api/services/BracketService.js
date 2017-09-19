@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
   User 	       = mongoose.model('User'),
   Bracket      = mongoose.model('Bracket'),
   Round        = mongoose.model('Round'),
-  RoundService = require('./RoundService'),
+  roundService = require('./RoundService'),
   Service      = require('./Service'),
   randomize    = require('../utils/Random'),
   MapRound     = require('../utils/MapRound')
@@ -93,8 +93,8 @@ const BracketService = {
 
     if(n <= 16) {
       // ** Organize the few fighters the best we can:
-      let numrounds = RoundService.defineLowRounds(n)
-      firstStage = RoundService.rounds(users, numrounds)
+      let numrounds = roundService.defineLowRounds(n)
+      firstStage = roundService.rounds(users, numrounds)
     }
     else {
       if(n < 25) count = 16
@@ -102,10 +102,21 @@ const BracketService = {
 
       // ** Lottery:
       let theChosenOnes = timeToShine(users)
-      firstStage = RoundService.rounds(theChosenOnes)
+      firstStage = roundService.rounds(theChosenOnes)
     }
 
     return new Bracket({'first_stage': firstStage})
+  },
+
+  saveBracket : function(bracket, stage){
+    let rounds = bracket[stage]
+    let i = 0, len;
+    for (i = 0, len = rounds.length; i < len; i++) {
+      roundService.saveRound(rounds[i])
+    }
+    bracket.save(function(err){
+      if(err) throw err
+    })
   },
 
   /* Find the current stage
@@ -123,7 +134,7 @@ const BracketService = {
       i++
     }
 
-    RoundService.roundInsert(i, user, rounds, stageKey)
+    roundService.roundInsert(i, user, rounds, stageKey)
 
     return {
       rounds : rounds,
@@ -139,7 +150,7 @@ const BracketService = {
 
       const nextStage = BracketService.getNextStageUpdated(brackets, round, user)
 
-      RoundService.saveOrUpdate(nextStage.round)
+      roundService.saveOrUpdate(nextStage.round)
 
       brackets[nextStage.name] = nextStage.rounds
 
