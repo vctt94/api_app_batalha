@@ -10,11 +10,18 @@ const config    = require('./config'),
   winston       = require('winston'),
   bunyanWinston = require('bunyan-winston-adapter'),
   mongoose      = require('mongoose'),
+  corsMiddleware = require('restify-cors-middleware'),
   socketio      = require('socket.io'),
-  cors          = require('cors'),
   expressApp    = require('express')(),
   httpServer    = require('http').Server(expressApp),
   io            = require('socket.io')(httpServer);
+
+
+
+const cors = corsMiddleware({
+  preflightMaxAge: 5, //Optional
+  origins: ['*'],
+})
 
 
 global.websocket = io;
@@ -55,7 +62,8 @@ server.use(restify.jsonBodyParser({ mapParams: true }))
 server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser({ mapParams: true }))
 server.use(restify.fullResponse())
-server.use(cors())
+server.pre(cors.preflight)
+server.use(cors.actual)
 
 /**
  * Error Handling

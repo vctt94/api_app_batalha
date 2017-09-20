@@ -26,30 +26,34 @@ const RoundService = {
     return Service.getById(Round,id)
   },
   saveRound(round){
-    round.save(function(err){
-      if(err) throw err
+    return new Promise( (resolve, reject) => {
+      round.save(function(err,roundSaved){
+        if(err) reject(err)
+        resolve(roundSaved)
+
+      })
     })
+
   },
   saveOrUpdate(round){
 
     return new Promise( (resolve, reject) => {
 
-      this.getRound(round._id).then( (err,doc) => {
-        if (err)
-          return reject(err)
-        if(!doc){
-          //create
-          this.saveRound(round)
-        }
+      this.getRound(round._id).then( doc => {
 
-        doc.second = round.second
+        if(!doc)
+          return this.saveRound(round).then(r=>{resolve(r)})
+
+        doc.second = round.second || null
+
         Round.findOneAndUpdate({_id : doc._id}, doc, function(err, doc){
+
           if(err) throw err
 
           resolve(doc)
         })
 
-      })
+      }).catch(err=>{reject(err)})
 
     })
   },

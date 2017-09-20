@@ -41,7 +41,6 @@ const BattleService = {
           brackets  = battle.brackets;
 
         bracketService.updateBracket(brackets, round, user).then(response=>{
-          console.log(response)
           resolve(response)
         })
 

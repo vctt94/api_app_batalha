@@ -145,25 +145,28 @@ const BracketService = {
   },
   updateBracket(brackets, round, user){
 
-
     return new Promise( (resolve, reject) => {
 
       const nextStage = BracketService.getNextStageUpdated(brackets, round, user)
 
-      roundService.saveOrUpdate(nextStage.round)
+      roundService.saveOrUpdate(nextStage.round).then(round=>{
 
-      brackets[nextStage.name] = nextStage.rounds
+        brackets[nextStage.name].push(round)
 
-      Bracket.findOneAndUpdate({_id : brackets._id}, brackets, function(err, doc){
-        if(err) reject(err)
+        brackets.save(function(err,bracketUpdated){
+          if(err) throw err
+
+          resolve(bracketUpdated)
+
+        })
+
+      }).catch(err=>{
+        reject(err)
       })
-
-      resolve(nextStage)
 
     })
 
   }
 }
-
 
 module.exports = BracketService
